@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חיפוש החופשה הבאה שלך</title>
+    <link rel="stylesheet" href="./style/grid.css">
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body dir="rtl">
+    <nav>
+        <button><a href="./favDestenations.html">ההמלצות שלנו</a></button>
+        <button><a href="./forms.html">לחיפוש החופשה הבאה שלך</a></button>
+        <button><a href="./index.html">דף הבית שלנו</a></button>
+    </nav>
+    <main>
+        <form action="Thank you" class="row">
+            <h1>התחלתם לארוז ???</h1>
+            <div>
+                ספרו לנו לאן אתם חולמים להגיע ומתי , אנחנו נסנן עבורכם את הדילים הכי רלוונטים
+            </div>
+            <label for="dest">
+                <span>לאן טסים ?</span>
+                <select required name="destenation" id="dest">
+                    <option value="" disabled selected>בחר יעד</option>
+                    <option value="greece">יוון</option>
+                    <option value="france">צרפת</option>
+                    <option value="russian">רוסיה</option>
+                    <option value="dubai">דובאי</option>
+                    <option value="thailand">תאילנד</option>
+                    <option value="china">סין</option>
+                    <option value="lebanon">לבנון</option>
+                </select>
+            </label>
+            <label>
+                <span> בחר תאריך : יציאה</span>
+                <input type="date" required value="תאריך יציאה" name="date" min="03-05-2026">
+                <span>: חזרה</span>
+                <input type="date" required value="תאריך חזרה" name="date">
+            </label>
+            <label for="passengers">
+                <span>מספר נוסעים : </span>
+                <select required name="passengers" id="passengers">
+                    <option value="" disabled selected>מספר נוסעים</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </label>
+            <label>
+                <span>מה התקציב המתאים עבורכם לחופשה ?</span>
+                <input type="radio" value="R" name="budget" checked>תקציב נוח
+                <input type="radio" value="L" name="budget">תקציב מצומצם
+                <input type="radio" value="H" name="budget">תקציב מפנק
+
+            </label>
+            <label for="mail">
+                <span>הזן כתובת מייל לקבלת ההצעה :</span>
+                <input type="email" name="email" id="mail" required>
+            </label>
+            <label for="about">
+                <span>הערות: </span>
+                <textarea name="about" id="about" rows="2"></textarea>
+            </label>
+            <button type="submit">שלח טופס</button>
+        </form>
+    </main>
+</body>
+
+</html>

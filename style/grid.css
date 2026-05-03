@@ -1,0 +1,21 @@
+html{
+    font-size: 14px;
+}
+.row{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+form{
+    width: 50%;
+    margin: 0 auto;
+    gap: 1.5rem;
+    
+}
+.Destanations-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap:1.5rem;
+    padding: 1.5rem;
+    
+}
