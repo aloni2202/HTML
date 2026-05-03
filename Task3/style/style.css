@@ -1,3 +1,7 @@
+h1{
+        font-size: 3rem;
+        text-align: center;
+    }
 .card{
     border: 1px solid #0a0101;
     border-radius: 15px;
@@ -8,11 +12,9 @@
         height: 100px;
         width: 100px;
         border-radius: 20%;
-       
-
     }
     
-
-
-    
+    h3{
+        font-size: 2rem;
+    }
 }

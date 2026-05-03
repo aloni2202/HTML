@@ -1,0 +1,15 @@
+nav{
+    display: grid;
+   grid-template-columns: 2fr 2fr;
+    gap: 60px;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+    margin: 0 auto;
+max-width:400px;
+.btn{
+width: 150px;
+text-align: center;
+padding: 0.5rem;
+}  
+}
