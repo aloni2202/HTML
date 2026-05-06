@@ -17,5 +17,13 @@ form{
     grid-template-rows: 1fr 1fr;
     gap:1.5rem;
     padding: 1.5rem;
-    
 }
+ul{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.index{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+

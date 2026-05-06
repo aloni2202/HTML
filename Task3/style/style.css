@@ -1,20 +1,87 @@
-h1{
-        font-size: 3rem;
-        text-align: center;
-    }
-.card{
-    border: 1px solid #0a0101;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+html {
+    font-size: 14px;
+    background-color: #E3F2FD;
     text-align: center;
-    img{
-        height: 100px;
-        width: 100px;
+}
+
+* {
+    font-family: "Gveret Levin", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.card {
+    border: 0.1rem solid #74a2ad;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: #a9e4f5;
+
+    img {
+        height: 10rem;
+        width: 10rem;
         border-radius: 20%;
     }
-    
-    h3{
+
+    h3 {
         font-size: 2rem;
     }
 }
+
+.card, button, a:hover {
+    box-shadow: inset 0px 2px 5px #71b1cd;
+    cursor: pointer;
+}
+footer {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+}
+ul {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    background-color: white;
+    border: 0.1rem #71b1cd solid;
+    font-size: 1.3rem;
+    width: fit-content;
+}
+
+a{
+    color: black;
+}
+header {
+    position: sticky;
+    top: 0;
+    background-color: #E3F2FD;
+}
+.index{
+    padding: 3rem;
+    margin: 2rem;
+}
+input:placeholder-shown{
+    border: 0.1rem solid #ccc;
+}
+input:valid{
+     border: 0.1rem solid #74a2ad ;
+}
+input:invalid:not(:placeholder-shown){
+    border: 0.1rem solid #ff7043 ;
+}
+input:focus{
+    outline: none;
+    border: 0.1rem solid #74a2ad;
+    background-color: #ffffff;
+}
+
+

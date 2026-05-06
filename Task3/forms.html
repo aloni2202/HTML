@@ -7,14 +7,22 @@
     <title>חיפוש החופשה הבאה שלך</title>
     <link rel="stylesheet" href="./style/grid.css">
     <link rel="stylesheet" href="./style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gveret+Levin&display=swap" rel="stylesheet">
 </head>
 
 <body dir="rtl">
-    <nav>
-        <button><a href="./favDestenations.html">ההמלצות שלנו</a></button>
-        <button><a href="./forms.html">לחיפוש החופשה הבאה שלך</a></button>
-        <button><a href="./index.html">דף הבית שלנו</a></button>
-    </nav>
+    <header>
+         <nav>
+            <ul>
+                <li><button><a href="./favDestenations.html">ההמלצות שלנו</a></button></li>
+                <li><button><a href="./forms.html">לחיפוש החופשה הבאה שלך</a></button></li>
+                <li><button><a href="./index.html">דף הבית שלנו</a></button></li>
+            </ul>
+        </nav>
+
+    </header>
     <main>
         <form action="Thank you" class="row">
             <h1>התחלתם לארוז ???</h1>
@@ -36,9 +44,9 @@
             </label>
             <label>
                 <span> בחר תאריך : יציאה</span>
-                <input type="date" required value="תאריך יציאה" name="date" min="03-05-2026">
+                <input type="date" required name="departure-date" min="03-05-2026">
                 <span>: חזרה</span>
-                <input type="date" required value="תאריך חזרה" name="date">
+                <input type="date" required name="return-date">
             </label>
             <label for="passengers">
                 <span>מספר נוסעים : </span>
@@ -60,13 +68,13 @@
             </label>
             <label for="mail">
                 <span>הזן כתובת מייל לקבלת ההצעה :</span>
-                <input type="email" name="email" id="mail" required>
+                <input type="email" name="email" id="mail" required placeholder="example@gmail.com">
             </label>
             <label for="about">
                 <span>הערות: </span>
                 <textarea name="about" id="about" rows="2"></textarea>
             </label>
-            <button type="submit">שלח טופס</button>
+            <button class="send" type="submit">שלח טופס</button>
         </form>
     </main>
 </body>
