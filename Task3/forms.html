@@ -14,7 +14,7 @@
 
 <body dir="rtl">
     <header>
-         <nav>
+        <nav>
             <ul>
                 <li><button><a href="./favDestenations.html">ההמלצות שלנו</a></button></li>
                 <li><button><a href="./forms.html">לחיפוש החופשה הבאה שלך</a></button></li>
@@ -44,20 +44,13 @@
             </label>
             <label>
                 <span> בחר תאריך : יציאה</span>
-                <input type="date" required name="departure-date" min="03-05-2026">
+                <input type="date" name="departure-date" id="departure-date" min="03-05-2026" required>
                 <span>: חזרה</span>
                 <input type="date" required name="return-date">
             </label>
             <label for="passengers">
                 <span>מספר נוסעים : </span>
-                <select required name="passengers" id="passengers">
-                    <option value="" disabled selected>מספר נוסעים</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                <input type="number" name="passengers" id="passengers" required placeholder="כמה תהיו?">
             </label>
             <label>
                 <span>מה התקציב המתאים עבורכם לחופשה ?</span>
