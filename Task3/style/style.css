@@ -31,6 +31,9 @@ h1 {
     h3 {
         font-size: 2rem;
     }
+    p{
+        line-height:1.5rem ;
+    }
 }
 
 .card, button, a:hover {
