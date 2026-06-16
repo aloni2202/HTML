@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <label for="userName">
+            <input type="text" id="userName" maxlength="60" pattern="[A-Za-z0-9!@#$%^&*()_+={}\[\]|\\:;'<>,.?/-]+"
+               placeholder="שם משתמש" required>
+        </label>
+
+        <label for="password">
+            <input type="password" id="password" minlength="7" maxlength="12" placeholder="סיסמא" required>
+        </label>
+
+        <label for="confirmPassword">
+            <input type="password" id="confirmPassword" placeholder="אימות סיסמא" required>
+        </label>
+
+        <label class="uploadPicture" for="profileImage">
+            <input type="file" id="profileImage" accept=".jpg, .jpeg" required>
+            <button class="btnRemove">הסר קובץ</button>
+        </label>
+
+         <label for="firstName">
+            <input type="text" id="firstName" placeholder="שם פרטי" required>
+        </label>
+
+         <label for="familyName">
+            <input type="text" id="familyName" placeholder="שם משפחה"  required>
+        </label>
+
+         <label for="emailAdress">
+            <input type="email" id="emailAdress"  placeholder="example@gmail.com"  required>
+        </label>
+
+         <label for="birthDate">
+            <input type="date" id="birthDate"  required>
+        </label>
+
+         <label for="city">
+            <input type="text" id="city" list="citiesList" autocomplete="off" placeholder="עיר" required>
+            <datalist id="citiesList"></datalist>
+        </label>
+
+         <label for="street">
+            <input type="text" id="street" pattern="[א-ת\s]+" placeholder="רחוב" required>
+        </label>
+
+        <label for="houseNumber">
+            <input type="number" id="houseNumber" placeholder="מספר בית" required>
+        </label>
+
+
+
+
+
+    </form>
+</body>
+
+</html>
