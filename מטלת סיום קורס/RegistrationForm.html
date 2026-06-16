@@ -1,67 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>טופס הרשמה</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 
-<body>
-    <form>
-        <div>
-            <label for="userName"></label>
-            <input type="text" id="userName" maxlength="60" pattern="[A-Za-z0-9!@#$%^&*()_+={}\[\]|\\:;'<>,.?/-]+"
-                placeholder="שם משתמש" required>
-        </div>
-        <div>
-            <label for="password"></label>
-            <input type="password" id="password" minlength="7" maxlength="12" placeholder="סיסמא" required>
-        </div>
-        <div>
-            <label for="confirmPassword"></label>
-            <input type="password" id="confirmPassword" placeholder="אימות סיסמא" required>
-        </div>
-        <div>
-            <label class="uploadPicture" for="profileImage"></label>
-            <input type="file" id="profileImage" accept=".jpg, .jpeg" required>
-            <button class="btnRemove">הסר קובץ</button>
-        </div>
-        <div>
-            <label for="firstName"></label>
-            <input type="text" id="firstName" placeholder="שם פרטי" required>
-        </div>
-        <div>
-            <label for="familyName"> </label>
-            <input type="text" id="familyName" placeholder="שם משפחה" required>
-        </div>
-        <div>
-            <label for="emailAdress"></label>
-            <input type="email" id="emailAdress" placeholder="example@gmail.com" required>
-        </div>
-        <div>
-            <label for="birthDate"></label>
-            <input type="date" id="birthDate" required>
-        </div>
-        <div>
-            <label for="city"></label>
-            <input type="text" id="city" list="citiesList" autocomplete="off" placeholder="עיר" required>
-            <datalist id="citiesList"></datalist>
-        </div>
-        <div>
-            <label for="street"> </label>
-            <input type="text" id="street" pattern="[א-ת\s]+" placeholder="רחוב" required>
-        </div>
-        <div>
-            <label for="houseNumber"> </label>
-            <input type="number" id="houseNumber" placeholder="מספר בית" required>
-        </div>
+<body class="bg-light-green">
+    <main class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+        <div class="container">
+            <div class="card card-soft-light shadow-lg border-0 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
+                        <div>
+                            <p class="text-uppercase text-secondary-light mb-2 small">מערכת ניהול עובדים</p>
+                            <h1 class="h3 mb-0">הרשמת משתמש חדש</h1>
+                        </div>
+                        <span class="badge badge-light-green">הרשמה</span>
+                    </div>
 
+                    <form novalidate>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label for="userName" class="form-label visually-hidden">שם משתמש</label>
+                                <input type="text" class="form-control form-control-light" id="userName" maxlength="60"
+                                    pattern="[A-Za-z0-9!@#$%^&*()_+={}[\]|\\:;'<>,.?/-]+" placeholder="שם משתמש" required>
+                            </div>
 
+                            <div class="col-12 col-md-6">
+                                <label for="password" class="form-label visually-hidden">סיסמה</label>
+                                <input type="password" class="form-control form-control-light" id="password" minlength="7"
+                                    maxlength="12" placeholder="סיסמא" required>
+                            </div>
 
+                            <div class="col-12 col-md-6">
+                                <label for="confirmPassword" class="form-label visually-hidden">אימות סיסמא</label>
+                                <input type="password" class="form-control form-control-light" id="confirmPassword"
+                                    placeholder="אימות סיסמא" required>
+                            </div>
 
+                            <div class="col-12 col-md-6">
+                                <label class="form-label d-block mb-2">תמונת פרופיל</label>
+                                <label for="profileImage" class="btn btn-outline-light-green w-100 custom-file-button">
+                                    בחר תמונה
+                                </label>
+                                <input type="file" class="d-none" id="profileImage" accept=".jpg, .jpeg" required>
+                                <p id="profileImageName" class="form-text-light mt-2 mb-0">פורמטים נתמכים: JPG, JPEG</p>
+                            </div>
 
-    </form>
+                            <div class="col-12 col-md-6">
+                                <label for="firstName" class="form-label visually-hidden">שם פרטי</label>
+                                <input type="text" class="form-control form-control-light" id="firstName"
+                                    placeholder="שם פרטי" required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="familyName" class="form-label visually-hidden">שם משפחה</label>
+                                <input type="text" class="form-control form-control-light" id="familyName"
+                                    placeholder="שם משפחה" required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="emailAddress" class="form-label visually-hidden">אימייל</label>
+                                <input type="email" class="form-control form-control-light" id="emailAddress"
+                                    placeholder="example@gmail.com" required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="birthDate" class="form-label visually-hidden">תאריך לידה</label>
+                                <input type="date" class="form-control form-control-light" id="birthDate" required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="city" class="form-label visually-hidden">עיר</label>
+                                <input type="text" class="form-control form-control-light" id="city" list="citiesList"
+                                    autocomplete="off" placeholder="עיר" required>
+                                <datalist id="citiesList">
+                                    <option value="תל אביב"></option>
+                                    <option value="ירושלים"></option>
+                                    <option value="חיפה"></option>
+                                    <option value="נתניה"></option>
+                                </datalist>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="street" class="form-label visually-hidden">רחוב</label>
+                                <input type="text" class="form-control form-control-light" id="street"
+                                    pattern="[א-ת\s]+" placeholder="רחוב" required>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="houseNumber" class="form-label visually-hidden">מספר בית</label>
+                                <input type="number" class="form-control form-control-light" id="houseNumber"
+                                    placeholder="מספר בית" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-light-green btn-lg">שמור</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const profileImage = document.getElementById('profileImage');
+        const profileImageName = document.getElementById('profileImageName');
+
+        profileImage.addEventListener('change', () => {
+            const fileName = profileImage.files.length ? profileImage.files[0].name : '';
+            profileImageName.textContent = fileName ? `נבחר: ${fileName}` : 'פורמטים נתמכים: JPG, JPEG';
+        });
+    </script>
 </body>
 
 </html>
