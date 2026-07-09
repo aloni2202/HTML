@@ -131,3 +131,363 @@ body.bg-light-green {
         padding: 1.75rem;
     }
 }
+:root {
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --primary: #0f3b66; /* modern dark blue */
+    --muted: #6b7280;
+    --accent: #2b6cb0;
+    --danger: #e53e3e;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    background: linear-gradient(180deg, #eef3f9 0%, var(--bg) 100%);
+    color: #0b1220;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(15, 59, 102, 0.12);
+    padding: 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.brand h1 {
+    font-size: 20px;
+    margin: 0;
+    color: var(--primary);
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+form {
+    display: block;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #d6dbe3;
+    background: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: box-shadow .15s, border-color .15s;
+}
+
+input:focus {
+    box-shadow: 0 4px 12px rgba(43, 108, 176, 0.12);
+    border-color: var(--accent);
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 0;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.helper {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 14px;
+}
+
+.helper a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+}
+
+body.admin-page {
+    background: radial-gradient(circle at top left, #0e3261 0%, #091527 42%, #050814 100%);
+    color: #f4f7ff;
+    min-height: 100vh;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 32px 20px;
+}
+
+.admin-header {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.admin-header .brand {
+    gap: 14px;
+}
+
+.admin-header .brand h1 {
+    font-size: 1.75rem;
+    margin: 0;
+    color: #ffffff;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    color: #a8c8ff;
+    font-size: 0.95rem;
+}
+
+.admin-topnav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.role-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd8ff;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.9rem 1.4rem;
+    border-radius: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: #f7fbff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+.admin-dashboard {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+}
+
+.dashboard-panel {
+    background: rgba(7, 18, 38, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.panel-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.35rem;
+}
+
+.panel-header p {
+    margin: 6px 0 0;
+    color: #9fb7d6;
+    font-size: 0.95rem;
+}
+
+.stats-chip {
+    background: rgba(255, 255, 255, 0.07);
+    padding: 12px 18px;
+    border-radius: 999px;
+    color: #e5f0ff;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+#adminUsersTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+#adminUsersTable thead tr {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#adminUsersTable th,
+#adminUsersTable td {
+    padding: 16px 14px;
+    text-align: right;
+    font-size: 0.96rem;
+}
+
+#adminUsersTable th {
+    color: #c8d6ff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+#adminUsersTable td {
+    color: #e9f2ff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+}
+
+#adminUsersTable tbody tr:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.action-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.08);
+    color: #f4f7ff;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.btn-edit {
+    border-color: rgba(56, 145, 255, 0.35);
+    color: #97c4ff;
+}
+
+.btn-delete {
+    border-color: rgba(255, 89, 89, 0.35);
+    color: #ffb3b3;
+}
+
+.btn-delete:hover {
+    background: rgba(255, 89, 89, 0.14);
+}
+
+.btn-edit:hover {
+    background: rgba(56, 145, 255, 0.14);
+}
+
+.table-empty {
+    color: #9fb7d6;
+    text-align: center;
+    padding: 28px 0;
+}
+
+@media (max-width: 900px) {
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 680px) {
+    body.admin-page {
+        padding: 20px 14px;
+    }
+    #adminUsersTable th,
+    #adminUsersTable td {
+        padding: 12px 10px;
+    }
+    .action-group {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .brand h1 {
+        font-size: 18px;
+    }
+}

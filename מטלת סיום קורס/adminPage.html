@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת ניהול משתמשים</title>
+    <link rel="stylesheet" href="style/grid.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <div class="brand">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="24" height="24" rx="6" fill="#0f3b66"/>
+                <path d="M7 14h10v2H7z" fill="#ffffff" opacity="0.9"/>
+            </svg>
+            <div>
+                <p class="eyebrow">לוח בקרה</p>
+                <h1>מערכת ניהול משתמשים</h1>
+            </div>
+        </div>
+        <div class="admin-topnav">
+            <span class="role-badge">Admin</span>
+            <a href="loginPage.html" class="btn btn-ghost">יציאה</a>
+        </div>
+    </header>
+
+    <main class="admin-dashboard">
+        <section class="dashboard-panel">
+            <div class="panel-header">
+                <div>
+                    <h2>רשימת משתמשים רשומים</h2>
+                    <p>כאן תמצאו את כל המשתמשים, תוכלו לערוך או למחוק רשומות במהירות.</p>
+                </div>
+                <div class="stats-chip"><span id="usersCount">0</span> משתמשים</div>
+            </div>
+
+            <div class="table-wrap">
+                <table id="adminUsersTable">
+                    <thead>
+                        <tr>
+                            <th>שם משתמש</th>
+                            <th>שם מלא</th>
+                            <th>תאריך לידה</th>
+                            <th>כתובת</th>
+                            <th>דואר אלקטרוני</th>
+                            <th>פעולות</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="script/functions.js"></script>
+    <script src="script/main.js"></script>
+</body>
+</html>
