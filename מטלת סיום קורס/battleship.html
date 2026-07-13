@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,11 @@
     <link rel="stylesheet" href="style/style.css">
     <script src="script/battleshipMain.js" type="module" defer></script>
 </head>
+
 <body>
     <div class="container">
         <h1>משחק צוללות - Battleship</h1>
-        
-        <!-- חלק ראשון: הגדרות המשחק -->
+
         <div id="setup-container">
             <h3>הגדרות לוח וספינות</h3>
             <p>
@@ -25,7 +26,7 @@
                     <option value="15">15 X 15</option>
                 </select>
             </p>
-            
+
             <div class="ships-input">
                 <p>הזן כמות ספינות קרב מכל גודל (2 עד 5):</p>
                 <p><label>ספינה בגודל 2: <input type="number" id="ship-size-2" min="0" value="1"></label></p>
@@ -33,19 +34,19 @@
                 <p><label>ספינה בגודל 4: <input type="number" id="ship-size-4" min="0" value="1"></label></p>
                 <p><label>ספינה בגודל 5: <input type="number" id="ship-size-5" min="0" value="1"></label></p>
             </div>
-            
+
             <button id="start-game-btn">התחל משחק</button>
         </div>
 
-        <!-- חלק שני: לוח המשחק והטבלה המלווה -->
         <div id="game-container" style="display: none; align-items: flex-start; gap: 20px; margin-top: 20px;">
             <div id="board-grid" style="border: 3px solid blue; padding: 5px;"></div>
-            
+
             <div id="stats-sidebar" style="border: 3px solid black; padding: 0;">
                 <table style="border-collapse: collapse; width: 250px; text-align: right; font-family: sans-serif;">
                     <thead>
                         <tr style="background-color: green; color: white;">
-                            <th colspan="2" style="padding: 8px; border-bottom: 2px solid black;">ספינות שנותרו ליריב:</th>
+                            <th colspan="2" style="padding: 8px; border-bottom: 2px solid black;">ספינות שנותרו ליריב:
+                            </th>
                         </tr>
                         <tr style="background-color: darkgreen; color: white; font-size: 0.9em;">
                             <th style="padding: 6px; border: 1px solid black;">סוג ספינה</th>
@@ -53,11 +54,11 @@
                         </tr>
                     </thead>
                     <tbody id="ships-table-body">
-                        <!-- השורות ייבנו דינמית ב-JS -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </body>
+
 </html>

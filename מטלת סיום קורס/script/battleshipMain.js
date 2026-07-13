@@ -24,7 +24,6 @@ function main() {
             5: count5
         };
 
-        // קורא לפונקציית האתחול ומעביר לה את הגודל הנבחר
         initBoardMatrix(selectedSize);
         generateRandomShips(shipsConfiguration);
 

@@ -1,8 +1,7 @@
 import { boardMatrix, currentBoardSize, shipsStatusList, updateBoardSizeInVars } from './battleshipVars.js';
 
-// 1. יצירת מטריצה ריקה (מערך בתוך מערך) בהתאם לגודל שנבחר
 export function initBoardMatrix(size) {
-    updateBoardSizeInVars(size); // תיקון: קריאה לפונקציה במקום השמה ישירה שחוסמת את הדף
+    updateBoardSizeInVars(size); 
     boardMatrix.length = 0; 
     for (let i = 0; i < size; i++) {
         let row = [];
@@ -17,7 +16,7 @@ export function initBoardMatrix(size) {
         boardMatrix.push(row);
     }
 }
-// 2. פונקציית הגנה: בודקת חריגה מהלוח, משבצות פנויות וריווח של משבצת אחת לפחות מסביב
+
 function checkPlacementValid(row, col, shipSize, isVertical) {
     if (isVertical) {
         if (row + shipSize > currentBoardSize) return false;
@@ -48,7 +47,7 @@ function checkPlacementValid(row, col, shipSize, isVertical) {
     return true;
 }
 
-// 3. אלגוריתם מיקום רנדומלי של הספינות על גבי הלוח
+
 export function generateRandomShips(shipCounts) {
     let shipIdCounter = 0;
     shipsStatusList.length = 0; 
@@ -90,7 +89,6 @@ export function generateRandomShips(shipCounts) {
     }
 }
 
-// 4. בנייה ורינדור דינמי של הלוח הוויזואלי ב-DOM באמצעות CSS Grid
 export function drawGridDOM() {
     let gridContainer = document.querySelector('#board-grid');
     gridContainer.innerHTML = ''; 
@@ -117,21 +115,20 @@ export function drawGridDOM() {
     }
 }
 
-// 5. עדכון טבלת כמות הספינות שנשארו ליריב באמצעות אלמנטים בסיסיים של Table
 export function updateSidebarStats() {
     let tableBody = document.querySelector('#ships-table-body');
-    tableBody.innerHTML = ''; // ניקוי ה-HTML הקיים בטבלה
+    tableBody.innerHTML = ''; 
 
     let sizeCounters = { 2: 0, 3: 0, 4: 0, 5: 0 };
     for (let i = 0; i < shipsStatusList.length; i++) {
-        // ספירה רק של ספינות שעדיין לא הושמדו לחלוטין
+    
         if (shipsStatusList[i].isSunk === false) {
             let shipSize = shipsStatusList[i].size;
             sizeCounters[shipSize]++;
         }
     }
 
-    // בניית השורות בטבלה בצורה דינמית באמצעות createElement ו-appendChild שלמדנו
+  
     for (let size = 2; size <= 5; size++) {
         let row = document.createElement('tr');
         
@@ -151,7 +148,6 @@ export function updateSidebarStats() {
     }
 }
 
-// 6. פונקציית הטיפול בלחיצה על משבצת (אירוע קליק)
 function onCellClicked(event) {
     let clickedCell = event.target;
     let row = Number(clickedCell.getAttribute('data-row'));
@@ -186,16 +182,16 @@ function onCellClicked(event) {
     }
 }
 
-// 7. השמעת צליל הפיצוץ, הוספת שורה בטבלה והצגת אנימציית BOOM למשתמש
+
 function triggerExplosionEffects() {
-    // 1. טעינת קובץ האודיו המקומי מתוך תיקיית style
+    
     let explosionSound = new Audio('style/explosion.mp3');
     explosionSound.volume = 0.5;
     explosionSound.play().catch(function(error) {
         console.log("הדפדפן חסם אודיו אוטומטי:", error);
     });
 
-    // 2. הוספת שורת עדכון פשוטה בתוך הטבלה שלכם
+
     let tableBody = document.querySelector('#ships-table-body');
     let logRow = document.createElement('tr');
     logRow.style.backgroundColor = '#ffe6e6'; 
@@ -212,7 +208,6 @@ function triggerExplosionEffects() {
     logRow.appendChild(logCell);
     tableBody.appendChild(logRow);
 
-    // 3. יצירת אלמנט הכתובית המנצנצת (אנימציית BOOM) במרכז המסך עם קוד DOM בסיסי
     let boomNotification = document.createElement('div');
     boomNotification.innerText = '💥 BOOM! 💥';
     boomNotification.style.position = 'fixed';
@@ -226,14 +221,13 @@ function triggerExplosionEffects() {
     boomNotification.style.zIndex = '9999';
     document.body.appendChild(boomNotification);
 
-    // 4. העלמת הכתובית אחרי קצת פחות משנייה (באמצעות setTimeout פשוט שלמדתם)
+
     setTimeout(function() {
         boomNotification.remove();
         checkGameStatus(); 
     }, 2000);
 }
 
-// 8. בדיקה האם כל הספינות טובעו והמשתמש ניצח
 function checkGameStatus() {
     let winGame = true;
     for (let i = 0; i < shipsStatusList.length; i++) {
