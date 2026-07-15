@@ -1,3 +1,4 @@
+import { currentBoardSize } from './battleshipVars.js';
 import { initBoardMatrix, generateRandomShips, drawGridDOM, updateSidebarStats } from './battleshipFunctions.js';
 
 function main() {
@@ -17,6 +18,7 @@ function main() {
             return;
         }
 
+        currentBoardSize = selectedSize;
         let shipsConfiguration = {
             2: count2,
             3: count3,
