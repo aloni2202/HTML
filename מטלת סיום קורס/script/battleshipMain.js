@@ -1,4 +1,5 @@
-import { currentBoardSize } from './battleshipVars.js';
+// ייבאנו את הפונקציה במקום את המשתנה עצמו
+import { setCurrentBoardSize } from './battleshipVars.js';
 import { initBoardMatrix, generateRandomShips, drawGridDOM, updateSidebarStats } from './battleshipFunctions.js';
 
 function main() {
@@ -18,7 +19,9 @@ function main() {
             return;
         }
 
-        currentBoardSize = selectedSize;
+        // השימוש בפונקציה מעדכן את המשתנה בקובץ השני בצורה חוקית ובטוחה
+        setCurrentBoardSize(selectedSize); 
+        
         let shipsConfiguration = {
             2: count2,
             3: count3,

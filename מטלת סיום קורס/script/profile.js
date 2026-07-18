@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // הגנת הדף: אם הזיכרון ריק, הפניה מיידית לדף התחברות כפי שביקש המרצה
     if (!sessionData) {
         alert("גישה חסומה! אנא התחבר קודם.");
-        window.location.href = "loginPage.html";
+        window.location.href = "index.html"; // תוקן ל-index.html
         return;
     }
 
@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. כפתור התנתק - מנקה את ה-Session Storage ומחזיר ללוגין
     document.getElementById("logoutBtn").addEventListener("click", () => {
         sessionStorage.removeItem("currentUser");
-        alert("התנתקת בהצלחה.");
-        window.location.href = "loginPage.html";
+        window.location.href = "index.html"; // תוקן ל-index.html (הורדתי את ה-alert המציק, המעבר המיידי עדיף חווייתית)
     });
 });
