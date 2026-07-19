@@ -1,8 +1,8 @@
 import { boardMatrix, currentBoardSize, shipsStatusList, updateBoardSizeInVars } from './battleshipVars.js';
 
 export function initBoardMatrix(size) {
-    updateBoardSizeInVars(size); 
-    boardMatrix.length = 0; 
+    updateBoardSizeInVars(size);
+    boardMatrix.length = 0;
     for (let i = 0; i < size; i++) {
         let row = [];
         for (let j = 0; j < size; j++) {
@@ -50,14 +50,14 @@ function checkPlacementValid(row, col, shipSize, isVertical) {
 
 export function generateRandomShips(shipCounts) {
     let shipIdCounter = 0;
-    shipsStatusList.length = 0; 
+    shipsStatusList.length = 0;
 
     for (let size = 5; size >= 2; size--) {
         let amountToPlace = shipCounts[size];
 
         for (let count = 0; count < amountToPlace; count++) {
             let isPlaced = false;
-            let attempts = 0; 
+            let attempts = 0;
 
             while (isPlaced === false && attempts < 1000) {
                 let isVertical = Math.random() >= 0.5;
@@ -81,7 +81,7 @@ export function generateRandomShips(shipCounts) {
                     }
 
                     shipIdCounter++;
-                    isPlaced = true; 
+                    isPlaced = true;
                 }
                 attempts++;
             }
@@ -91,8 +91,8 @@ export function generateRandomShips(shipCounts) {
 
 export function drawGridDOM() {
     let gridContainer = document.querySelector('#board-grid');
-    gridContainer.innerHTML = ''; 
-    
+    gridContainer.innerHTML = '';
+
     gridContainer.style.display = 'grid';
     gridContainer.style.gridTemplateColumns = `repeat(${currentBoardSize}, 40px)`;
     gridContainer.style.gap = '2px';
@@ -100,12 +100,12 @@ export function drawGridDOM() {
     for (let r = 0; r < currentBoardSize; r++) {
         for (let c = 0; c < currentBoardSize; c++) {
             let gridCell = document.createElement('div');
-            
+
             gridCell.style.width = '40px';
             gridCell.style.height = '40px';
-            gridCell.style.backgroundColor = 'gray'; 
+            gridCell.style.backgroundColor = 'gray';
             gridCell.style.cursor = 'pointer';
-            
+
             gridCell.setAttribute('data-row', r);
             gridCell.setAttribute('data-col', c);
 
@@ -117,26 +117,26 @@ export function drawGridDOM() {
 
 export function updateSidebarStats() {
     let tableBody = document.querySelector('#ships-table-body');
-    tableBody.innerHTML = ''; 
+    tableBody.innerHTML = '';
 
     let sizeCounters = { 2: 0, 3: 0, 4: 0, 5: 0 };
     for (let i = 0; i < shipsStatusList.length; i++) {
-    
+
         if (shipsStatusList[i].isSunk === false) {
             let shipSize = shipsStatusList[i].size;
             sizeCounters[shipSize]++;
         }
     }
 
-  
+
     for (let size = 2; size <= 5; size++) {
         let row = document.createElement('tr');
-        
+
         let nameCell = document.createElement('td');
         nameCell.innerText = `ספינה בגודל ${size}`;
         nameCell.style.padding = '6px';
         nameCell.style.border = '1px solid black';
-        
+
         let countCell = document.createElement('td');
         countCell.innerText = sizeCounters[size];
         countCell.style.padding = '6px';
@@ -152,7 +152,7 @@ function onCellClicked(event) {
     let clickedCell = event.target;
     let row = Number(clickedCell.getAttribute('data-row'));
     let col = Number(clickedCell.getAttribute('data-col'));
-    
+
     let cellData = boardMatrix[row][col];
 
     if (cellData.isHit === true) {
@@ -160,9 +160,15 @@ function onCellClicked(event) {
     }
     cellData.isHit = true;
 
+    clickedCell.style.display = 'flex';
+    clickedCell.style.alignItems = 'center';
+    clickedCell.style.justifyContent = 'center';
+    clickedCell.style.fontSize = '1.5rem';
+
     if (cellData.hasShip === true) {
-        clickedCell.style.backgroundColor = 'orange'; 
-        
+        clickedCell.style.backgroundColor = 'orange';
+        clickedCell.innerText = '🚢';
+
         let hitShip = null;
         for (let i = 0; i < shipsStatusList.length; i++) {
             if (shipsStatusList[i].id === cellData.shipId) {
@@ -174,28 +180,28 @@ function onCellClicked(event) {
 
         if (hitShip.hitsCount === hitShip.size) {
             hitShip.isSunk = true;
-            updateSidebarStats(); 
-            triggerExplosionEffects(); 
+            updateSidebarStats();
+            triggerExplosionEffects();
         }
     } else {
-        clickedCell.style.backgroundColor = 'blue'; 
+        clickedCell.style.backgroundColor = 'blue';
+        clickedCell.innerText = '🌊';
     }
 }
 
-
 function triggerExplosionEffects() {
-    
+
     let explosionSound = new Audio('style/explosion.mp3');
     explosionSound.volume = 0.5;
-    explosionSound.play().catch(function(error) {
+    explosionSound.play().catch(function (error) {
         console.log("הדפדפן חסם אודיו אוטומטי:", error);
     });
 
 
     let tableBody = document.querySelector('#ships-table-body');
     let logRow = document.createElement('tr');
-    logRow.style.backgroundColor = '#ffe6e6'; 
-    
+    logRow.style.backgroundColor = '#ffe6e6';
+
     let logCell = document.createElement('td');
     logCell.setAttribute('colspan', '2');
     logCell.innerText = '💥 ספינה הושמדה לחלוטין!';
@@ -222,9 +228,9 @@ function triggerExplosionEffects() {
     document.body.appendChild(boomNotification);
 
 
-    setTimeout(function() {
+    setTimeout(function () {
         boomNotification.remove();
-        checkGameStatus(); 
+        checkGameStatus();
     }, 2000);
 }
 
