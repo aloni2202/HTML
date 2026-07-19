@@ -39,9 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // 2. חסימת עברית בשם המשתמש (מאפשר רק אותיות לועזיות, מספרים ותווים מיוחדים)
+        const usernameRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
+        if (!usernameRegex.test(username)) {
+            showError(errorMsg, 'שם המשתמש חייב להכיל אותיות לועזיות (באנגלית), מספרים או תווים מיוחדים בלבד.');
+            return;
+        }
+
         const users = getAllUsers();
 
-        // 2. בדיקת התחברות מנהל מערכת (Admin)
+        // 3. בדיקת התחברות מנהל מערכת (Admin)
         if (username === 'admin' && password === 'admin1234admin') {
             sessionStorage.setItem('currentUser', JSON.stringify({
                 username: 'admin',
@@ -53,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 3. חיפוש משתמש רגיל במאגר הנתונים
+        // 4. חיפוש משתמש רגיל במאגר הנתונים
         const foundUser = users.find((user) => user.username === username && user.password === password);
 
         // אם המשתמש לא נמצא
@@ -62,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 4. התחברות מוצלחת! שמירה ב-Session ומעבר לפרופיל
+        // 5. התחברות מוצלחת! שמירה ב-Session ומעבר לפרופיל
         sessionStorage.setItem('currentUser', JSON.stringify(foundUser));
         window.location.href = 'profile.html';
     });

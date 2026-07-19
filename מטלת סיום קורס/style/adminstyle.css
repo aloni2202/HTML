@@ -1,0 +1,207 @@
+/* --- עיצוב כללי ללוח הבקרה של המנהל --- */
+:root {
+    --bg-primary: #f7fafc;
+    --bg-card: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --color-brand: #0f3b66;
+    --color-accent: #2b6cb0;
+    --color-danger: #e53e3e;
+    --border-color: #edf2f7;
+}
+
+body.admin-page {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+}
+
+/* מבנה כותרת עליונה */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-card);
+    padding: 16px 32px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.admin-header .eyebrow {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-topnav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.role-badge {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-ghost {
+    color: var(--color-danger);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: opacity 0.2s;
+}
+
+.btn-ghost:hover {
+    opacity: 0.8;
+}
+
+/* 🌟 שימוש ב-Grid למבנה הלוח הראשי */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 32px;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 24px;
+}
+
+.dashboard-panel {
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    padding: 32px;
+    border: 1px solid var(--border-color);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.panel-header h2 {
+    margin: 0 0 6px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.panel-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.stats-chip {
+    background-color: #ebf8ff;
+    color: var(--color-accent);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid #bee3f8;
+}
+
+/* 🌟 עיצוב הטבלה המודרנית */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: right;
+}
+
+th {
+    background-color: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+    padding: 16px;
+    border-bottom: 2px solid var(--border-color);
+    font-size: 14px;
+}
+
+td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #f8fafc;
+}
+
+/* כפתורי פעולה בתוך התאים */
+.actions-cell {
+    display: flex;
+    gap: 8px;
+}
+
+.actions-cell button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.2s;
+}
+
+.actions-cell button:active {
+    transform: scale(0.96);
+}
+
+.actions-cell .btn-delete {
+    background-color: var(--color-danger);
+    color: #ffffff;
+}
+
+.actions-cell .btn-delete:hover {
+    filter: brightness(0.9);
+}
+
+.actions-cell .btn-edit {
+    background-color: var(--color-accent);
+    color: #ffffff;
+}
+
+.actions-cell .btn-edit:hover {
+    filter: brightness(0.9);
+}

@@ -1,6 +1,6 @@
 import { User, getAllUsers, validatePassword, validateAge, validateEmailFormat } from './functions.js';
 
-const citiesDatabase = ['תל אביב', 'ירושלים', 'חיפה', 'נתניה', 'הרצליה', 'ראשון לציון'];
+let citiesDatabase = []; 
 
 const profileImageInput = document.getElementById('profileImage');
 const profileImageName = document.getElementById('profileImageName');
@@ -10,47 +10,40 @@ const citiesList = document.getElementById('citiesList');
 const editForm = document.querySelector('form');
 const errorContainer = document.getElementById('registrationError');
 
-let originalUser = null;
-let profileImageBase64 = '';
+let originalUser = null; // המשתמש שאת פרטיו עורכים כרגע
+let profileImageBase64 = ''; 
+let isModeAdminEditing = false; // דגל שמסמן האם מנהל עורך כרגע משתמש אחר
 
 function showError(message) {
-    if (errorContainer) {
-        errorContainer.textContent = message;
-        errorContainer.classList.remove('d-none');
-        return;
-    }
-
-    alert(message);
+    Swal.fire({
+        title: 'אופס, משהו לא תקין!',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'הבנתי, אתקן',
+        confirmButtonColor: '#d33',
+        backdrop: `rgba(0,0,0,0.4)`
+    });
 }
 
 function clearError() {
-    if (!errorContainer) {
-        return;
-    }
-
+    if (!errorContainer) return;
     errorContainer.textContent = '';
     errorContainer.classList.add('d-none');
 }
 
 function updateCityOptions(filterValue) {
-    if (!citiesList) {
-        return;
-    }
-
+    if (!citiesList) return;
     citiesList.innerHTML = '';
-
-    if (!filterValue) {
-        return;
-    }
+    if (!filterValue) return;
 
     const normalizedFilter = filterValue.toLowerCase();
-    const filteredCities = citiesDatabase.filter((cityName) =>
-        cityName.toLowerCase().includes(normalizedFilter)
+    const filteredCities = citiesDatabase.filter((cityObj) =>
+        cityObj["שם_ישוב"] && cityObj["שם_ישוב"].toLowerCase().includes(normalizedFilter)
     );
 
-    filteredCities.forEach((cityName) => {
+    filteredCities.forEach((cityObj) => {
         const option = document.createElement('option');
-        option.value = cityName;
+        option.value = cityObj["שם_ישוב"];
         citiesList.appendChild(option);
     });
 }
@@ -58,7 +51,6 @@ function updateCityOptions(filterValue) {
 function getSelectedFileBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-
         reader.onload = () => resolve(reader.result);
         reader.onerror = () => reject(new Error('שגיאה בקריאת קובץ התמונה'));
         reader.readAsDataURL(file);
@@ -66,10 +58,7 @@ function getSelectedFileBase64(file) {
 }
 
 function setProfilePreview(src) {
-    if (!profileImagePreview) {
-        return;
-    }
-
+    if (!profileImagePreview) return;
     profileImagePreview.src = src || '';
 }
 
@@ -94,8 +83,17 @@ function populateForm(user) {
 
     setProfilePreview(user.profileImage || '');
     profileImageBase64 = user.profileImage || '';
+    
     if (profileImageName) {
         profileImageName.textContent = user.profileImage ? 'תמונה קיימת נטענת' : 'פורמטים נתמכים: JPG, JPEG';
+    }
+
+    // 🌟 אם מנהל עורך, נסתיר או ננטרל את שדות הסיסמה בטופס
+    if (isModeAdminEditing) {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        if (passwordInput) passwordInput.disabled = true;
+        if (confirmPasswordInput) confirmPasswordInput.disabled = true;
     }
 }
 
@@ -103,6 +101,7 @@ function handleFormSubmit(event) {
     event.preventDefault();
     clearError();
 
+    // קריאת הערכים מהטופס
     const username = document.getElementById('userName')?.value.trim();
     const password = document.getElementById('password')?.value || '';
     const confirmPassword = document.getElementById('confirmPassword')?.value || '';
@@ -114,75 +113,99 @@ function handleFormSubmit(event) {
     const street = document.getElementById('street')?.value.trim();
     const houseNumberValue = document.getElementById('houseNumber')?.value.trim();
 
-    if (!username || !firstName || !lastName || !email || !dateOfBirth || !city || !street || !houseNumberValue) {
-        showError('יש למלא את כל השדות.');
+    // 🌟 פתרון דרישה במצב מנהל: אם שדה ריק, לוקחים את ברירת המחדל המקורית של המשתמש
+    const finalUsername = username || originalUser.username;
+    const finalFirstName = firstName || originalUser.firstName;
+    const finalLastName = lastName || originalUser.lastName;
+    const finalEmail = email || originalUser.email;
+    const finalDateOfBirth = dateOfBirth || originalUser.dateOfBirth;
+    const finalCity = city || originalUser.city;
+    const finalStreet = street || originalUser.street;
+    const finalHouseNumber = houseNumberValue ? Number(houseNumberValue) : originalUser.houseNumber;
+    const finalProfileImage = profileImageBase64 || originalUser.profileImage;
+
+    // 1. בדיקת שדות ריקים - חלה רק על משתמש רגיל! מנהל פטור ויקבל ברירות מחדל
+    if (!isModeAdminEditing) {
+        if (!username || !firstName || !lastName || !email || !dateOfBirth || !city || !street || !houseNumberValue) {
+            showError('יש למלא את כל השדות בטופס.');
+            return;
+        }
+    }
+
+    // 2. חסימת אותיות בעברית בשם המשתמש
+    const usernamePattern = /^[A-Za-z0-9!@#$%^&*()_+={}[\]|\\:;'<>,.?/-]+$/;
+    if (finalUsername && !usernamePattern.test(finalUsername)) {
+        showError('שם המשתמש אינו חוקי. יש להשתמש באותיות באנגלית, מספרים וסימנים בלבד (ללא עברית).');
         return;
     }
 
+    // 3. בדיקת רחוב בעברית
     const streetPattern = /^[א-ת\s]+$/u;
-    if (!streetPattern.test(street)) {
-        showError('שם הרחוב חייב להכיל רק אותיות עבריות ורווחים.');
+    if (finalStreet && !streetPattern.test(finalStreet)) {
+        showError('שם הרחוב שגוי. יש להזין רק אותיות בעברית ורווחים.');
         return;
     }
 
-    const houseNumber = Number(houseNumberValue);
-    if (!Number.isInteger(houseNumber) || houseNumber <= 0) {
-        showError('מספר הבית חייב להיות מספר חיובי.');
+    // 4. מספר בית חיובי
+    if (finalHouseNumber && (!Number.isInteger(finalHouseNumber) || finalHouseNumber <= 0)) {
+        showError('מספר הבית אינו תקין. יש להזין מספר חיובי שלם.');
         return;
     }
 
-    if (password || confirmPassword) {
+    // 5. תקינות סיסמה (רק למשתמש רגיל ובמידה והזין ערך חדש)
+    if (!isModeAdminEditing && (password || confirmPassword)) {
         if (password !== confirmPassword) {
-            showError('הסיסמה ואימות הסיסמה לא תואמים.');
+            showError('הסיסמאות שנקלטו אינן תואמות. אנא ודא ששתי הסיסמאות זהות.');
             return;
         }
-
         if (!validatePassword(password)) {
-            showError('הסיסמה חייבת להכיל 7-12 תווים, אות גדולה, מספר ותו מיוחד.');
+            showError('הסיסמה חלשה מדי. עליה להכיל 7-12 תווים, אות גדולה, מספר ותו מיוחד.');
             return;
         }
     }
 
-    if (!validateAge(dateOfBirth)) {
-        showError('תאריך הלידה אינו חוקי. יש להזין גיל בין 1 ל-119.');
+    // 6. בדיקת גיל
+    if (finalDateOfBirth && !validateAge(finalDateOfBirth)) {
+        showError('תאריך הלידה אינו תקין. הגיל במערכת מוגבל בין 1 ל-119.');
         return;
     }
 
-    if (!validateEmailFormat(email)) {
-        showError('האימייל חייב לכלול @ אחד בלבד ולהסתיים ב-.com.');
+    // 7. פורמט אימייל
+    if (finalEmail && !validateEmailFormat(finalEmail)) {
+        showError('כתובת האימייל אינה במבנה תקין. יש להזין אימייל הכולל @ ומסתיים ב- .com');
         return;
     }
 
+    // 8. בדיקת כפל מיילים מוגנת
     const users = getAllUsers();
     const emailExists = users.some((user) => {
-        const isSameUser = originalUser && user.email.toLowerCase() === originalUser.email.toLowerCase();
-        return !isSameUser && user.email.toLowerCase() === email.toLowerCase();
+        if (!user || !user.email) return false;
+        const isSameUser = originalUser && originalUser.email && user.email.toLowerCase() === originalUser.email.toLowerCase();
+        return !isSameUser && user.email.toLowerCase() === finalEmail.toLowerCase();
     });
 
     if (emailExists) {
-        showError('כתובת האימייל כבר קיימת במערכת.');
+        showError('כתובת האימייל שהזנת כבר תפוסה על ידי משתמש אחר במערכת.');
         return;
     }
 
-    if (!profileImageBase64) {
-        showError('אנא העלה תמונת פרופיל בפורמט JPG או JPEG.');
-        return;
-    }
-
+    // בניית אובייקט משתמש מעודכן
     const updatedUser = new User({
-        username,
-        password: password || originalUser.password,
-        firstName,
-        lastName,
-        email,
-        dateOfBirth,
-        city,
-        street,
-        houseNumber,
-        profileImage: profileImageBase64,
+        username: finalUsername,
+        password: isModeAdminEditing ? originalUser.password : (password || originalUser.password),
+        firstName: finalFirstName,
+        lastName: finalLastName,
+        email: finalEmail,
+        dateOfBirth: finalDateOfBirth,
+        city: finalCity,
+        street: finalStreet,
+        houseNumber: finalHouseNumber,
+        profileImage: finalProfileImage,
+        role: originalUser.role || 'user' // שומר על התפקיד המקורי שלו (למשל אם הוא עצמו אדמין)
     });
 
-    const userIndex = users.findIndex((user) => originalUser && user.email.toLowerCase() === originalUser.email.toLowerCase());
+    // עדכון במערך הגלובלי
+    const userIndex = users.findIndex((user) => originalUser && user.email && user.email.toLowerCase() === originalUser.email.toLowerCase());
     if (userIndex >= 0) {
         users[userIndex] = updatedUser;
     } else {
@@ -190,23 +213,60 @@ function handleFormSubmit(event) {
     }
 
     localStorage.setItem('users', JSON.stringify(users));
-    sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    alert('הפרופיל עודכן בהצלחה.');
-    window.location.href = 'profile.html';
+
+    // עדכון ה-session רק אם המשתמש הנוכחי עדכן את עצמו (ולא מנהל שעדכן מישהו אחר)
+    if (!isModeAdminEditing) {
+        sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    }
+
+    // ניקוי מפתח העריכה של האדמין בסיום
+    localStorage.removeItem('editUserTarget');
+
+    Swal.fire({
+        title: 'הפרטים נשמרו בהצלחה!',
+        text: isModeAdminEditing ? 'נתוני המשתמש עודכנו על ידי מנהל.' : 'הפרופיל שלך עודכן במערכת.',
+        icon: 'success',
+        confirmButtonText: 'אישור',
+        confirmButtonColor: '#3085d6',
+        backdrop: `rgba(0,0,0,0.4)`
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // ניתוח לאן להחזיר את המשתמש
+            window.location.href = isModeAdminEditing ? 'adminPage.html' : 'profile.html';
+        }
+    });
 }
 
-function init() {
-    const rawCurrentUser = sessionStorage.getItem('currentUser');
-    if (!rawCurrentUser) {
+async function init() {
+    try {
+        const response = await fetch('./cities.json');
+        citiesDatabase = await response.json();
+    } catch (error) {
+        console.error("שגיאה בטעינת רשימת הערים:", error);
+    }
+
+    const loggedInUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (!loggedInUser) {
         window.location.href = 'loginPage.html';
         return;
     }
 
-    try {
-        originalUser = JSON.parse(rawCurrentUser);
-    } catch (error) {
-        window.location.href = 'loginPage.html';
-        return;
+    // 🌟 בדיקה האם מדובר במנהל שהגיע לערוך משתמש ספציפי
+    const adminTargetUsername = localStorage.getItem('editUserTarget');
+    
+    if (adminTargetUsername && loggedInUser.role === 'admin') {
+        isModeAdminEditing = true;
+        const allUsers = getAllUsers();
+        originalUser = allUsers.find(u => u.username === adminTargetUsername);
+        
+        if (!originalUser) {
+            showError('המשתמש המבוקש לא נמצא במערכת.');
+            window.location.href = 'adminPage.html';
+            return;
+        }
+    } else {
+        // מצב רגיל - משתמש עורך את עצמו
+        originalUser = loggedInUser;
     }
 
     populateForm(originalUser);
@@ -234,7 +294,7 @@ function init() {
                 }
                 profileImageInput.value = '';
                 profileImageBase64 = originalUser.profileImage || '';
-                showError('בחר קובץ JPG או JPEG בלבד.');
+                showError('סוג הקובץ אינו נתמך. יש לבחור קובץ JPG או JPEG בלבד.');
                 return;
             }
 
@@ -253,7 +313,7 @@ function init() {
                 }
                 profileImageInput.value = '';
                 profileImageBase64 = originalUser.profileImage || '';
-                showError('לא ניתן לקרוא את קובץ התמונה.');
+                showError('אירעה שגיאה בקריאת קובץ התמונה שבחרת.');
             }
         });
     }
