@@ -243,6 +243,25 @@ function checkGameStatus() {
     }
 
     if (winGame === true && shipsStatusList.length > 0) {
-        alert('כל הכבוד! השמדת את כל ספינות האויב וניצחת במשחק!');
+        Swal.fire({
+            title: '🏆 כל הכבוד! ניצחת!',
+            text: 'השמדת את כל ספינות האויב בהצלחה!',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'משחק חדש 🔄',
+            cancelButtonText: 'לפרופיל האישי 👤',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#3085d6',
+            allowOutsideClick: false,
+            backdrop: `rgba(0,0,0,0.4)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // טעינה מחדש של עמוד המשחק
+                window.location.reload();
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // מעבר לעמוד הפרופיל
+                window.location.href = 'profile.html';
+            }
+        });
     }
 }
