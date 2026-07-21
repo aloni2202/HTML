@@ -1,0 +1,109 @@
+/* =========================================
+   עיצוב מלא ועצמאי לדף הפרופיל
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100vh;
+}
+
+/* 1. מבנה הדף והרקע */
+body.bg-light-green {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f0f7eb 0%, #e8f5e9 50%, #dcedc8 100%);
+    color: #1b5e20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 2. מידות וקונטיינר ספציפיים לפרופיל */
+.profile-container {
+    max-width: 700px;
+    width: 100%;
+    margin: auto;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* 3. עיצוב הכרטיסייה */
+.card-soft-light {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(102, 187, 106, 0.2);
+    border-radius: 1.2rem;
+    box-shadow: 0 8px 30px rgba(15, 59, 102, 0.12);
+}
+
+/* 4. עיצוב בסיסי של כפתורים */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 5. צבעי הכפתורים (ירוק, מסגרת ואדום) */
+.btn-light-green {
+    background-color: #66bb6a;
+    border-color: #66bb6a;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-light-green:hover,
+.btn-light-green:focus {
+    background-color: #4caf50;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn-outline-light-green {
+    background-color: transparent;
+    color: #388e3c;
+    border: 1px solid rgba(56, 142, 60, 0.5);
+}
+
+.btn-outline-light-green:hover,
+.btn-outline-light-green:focus {
+    color: #ffffff;
+    background-color: rgba(102, 187, 106, 0.2);
+    border-color: #66bb6a;
+    transform: translateY(-2px);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+}
+
+/* 6. טקסט משני */
+.text-secondary-light {
+    color: #558b2f !important;
+}
+
+/* 7. רספונסיביות למובייל */
+@media (max-width: 767.98px) {
+    body.bg-light-green {
+        padding: 20px 14px;
+        align-items: flex-start; /* מאפשר גלילה נוחה בנייד */
+    }
+    .card-body {
+        padding: 1.75rem !important;
+    }
+}

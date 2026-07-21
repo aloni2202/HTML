@@ -1,0 +1,124 @@
+/* =========================================
+   עיצוב ייעודי לדף ההרשמה (Light Green Theme)
+   ========================================= */
+
+/* 1. הגדרות תצוגה וגלילה למסך המלא */
+html {
+    min-height: 100vh;
+}
+
+body.bg-light-green {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    background: linear-gradient(135deg, #f0f7eb 0%, #e8f5e9 50%, #dcedc8 100%);
+    color: #1b5e20;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* מונע חיתוך של הטופס למעלה ומאפשר גלילה */
+    display: flex;
+    align-items: flex-start; 
+    justify-content: center;
+    padding: 40px 24px;
+}
+
+/* 2. עיצוב הכרטיסייה הלבנה של הטופס */
+.card {
+    width: 100%;
+    max-width: 750px;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(15, 59, 102, 0.12);
+    padding: 35px;
+}
+
+.card-soft-light {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(102, 187, 106, 0.2);
+}
+
+/* 3. עיצוב שדות ההקלדה (Inputs) */
+.form-control-light {
+    background: #f1f8e9;
+    color: #1b5e20;
+    border: 1px solid rgba(102, 187, 106, 0.4);
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: box-shadow .15s, border-color .15s;
+}
+
+.form-control-light:focus {
+    background: #ffffff;
+    color: #1b5e20;
+    border-color: #66bb6a;
+    box-shadow: 0 4px 12px rgba(102, 187, 106, 0.25);
+    outline: none;
+}
+
+/* 4. עיצוב כפתורים ותגים */
+.btn-light-green {
+    background-color: #66bb6a;
+    border-color: #66bb6a;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    border: 0;
+    cursor: pointer;
+}
+
+.btn-light-green:hover,
+.btn-light-green:focus {
+    background-color: #4caf50;
+    border-color: #4caf50;
+    color: #ffffff;
+    transform: translateY(1px);
+}
+
+.badge-light-green {
+    background-color: #81c784;
+    color: #1b5e20;
+}
+
+.btn-outline-light-green {
+    color: #388e3c;
+    border-color: rgba(56, 142, 60, 0.5);
+}
+
+.btn-outline-light-green:hover,
+.btn-outline-light-green:focus {
+    color: #ffffff;
+    background-color: rgba(102, 187, 106, 0.2);
+    border-color: #66bb6a;
+}
+
+/* 5. טקסטים וכפתור תמונת פרופיל */
+.form-text-light {
+    color: #558b2f;
+}
+
+.text-secondary-light {
+    color: #558b2f !important;
+}
+
+.custom-file-button {
+    min-height: calc(2.75rem + 2px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.85rem;
+    cursor: pointer;
+}
+
+/* 6. התאמות למסכים קטנים (מובייל) */
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1.75rem;
+    }
+    .card {
+        padding: 20px;
+    }
+}
