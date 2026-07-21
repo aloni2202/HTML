@@ -10,6 +10,10 @@
     --border-color: #edf2f7;
 }
 
+* {
+    box-sizing: border-box; /* מונע מחריגות גודל לשבור את הרוחב */
+}
+
 body.admin-page {
     font-family: system-ui, -apple-system, sans-serif;
     background-color: var(--bg-primary);
@@ -17,6 +21,8 @@ body.admin-page {
     margin: 0;
     padding: 0;
     direction: rtl;
+    width: 100%;
+    overflow-x: hidden; /* מונע גלילה אופקית של העמוד כולו */
 }
 
 /* מבנה כותרת עליונה */
@@ -28,6 +34,7 @@ body.admin-page {
     padding: 16px 32px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     border-bottom: 1px solid var(--border-color);
+    width: 100%;
 }
 
 .admin-header .brand {
@@ -79,22 +86,26 @@ body.admin-page {
     opacity: 0.8;
 }
 
-/* 🌟 שימוש ב-Grid למבנה הלוח הראשי */
+/* 🌟 מבנה הלוח הראשי */
 .admin-dashboard {
     display: grid;
     grid-template-columns: 1fr;
     padding: 32px;
     max-width: 1280px;
+    width: 100%;
     margin: 0 auto;
     gap: 24px;
 }
 
+/* תחימת הפאנל למניעת התרחבות מעבר למסך */
 .dashboard-panel {
     background: var(--bg-card);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     padding: 32px;
     border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 100%; /* מקבע את רוחב הכרטיסייה */
 }
 
 .panel-header {
@@ -127,16 +138,22 @@ body.admin-page {
     font-weight: 700;
     font-size: 14px;
     border: 1px solid #bee3f8;
+    white-space: nowrap;
 }
 
-/* 🌟 עיצוב הטבלה המודרנית */
+/* 🌟 עיצוב המעטפת הנגללת של הטבלה */
 .table-wrap {
     width: 100%;
-    overflow-x: auto;
+    max-width: 100%; /* תופס בדיוק את רוחב ה-dashboard-panel */
+    overflow-x: auto; /* מאפשר גלילה אופקית פנימית בלבד */
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
 }
 
+/* הטבלה עצמה */
 table {
     width: 100%;
+    min-width: 650px; /* הטווח שמכריח את הטבלה להפעיל גלילה פנימית ב-table-wrap */
     border-collapse: separate;
     border-spacing: 0;
     text-align: right;
@@ -149,6 +166,7 @@ th {
     padding: 16px;
     border-bottom: 2px solid var(--border-color);
     font-size: 14px;
+    white-space: nowrap;
 }
 
 td {
@@ -157,6 +175,7 @@ td {
     color: var(--text-main);
     font-size: 14px;
     vertical-align: middle;
+    white-space: nowrap; /* מונע שבירת שורות מכוערת בתאים */
 }
 
 tr:last-child td {
@@ -204,4 +223,42 @@ tr:hover {
 
 .actions-cell .btn-edit:hover {
     filter: brightness(0.9);
+}
+
+/* ==========================================================
+   📱 התאמה למובייל (Media Queries)
+   ========================================================== */
+
+@media (max-width: 768px) {
+    .admin-header {
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .admin-topnav {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .admin-dashboard {
+        padding: 12px;
+        gap: 16px;
+    }
+
+    .dashboard-panel {
+        padding: 16px;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .actions-cell button {
+        padding: 8px 12px;
+        min-height: 44px; /* גובה מותאם למגע באצבע לפי מנשר המובייל */
+    }
 }
