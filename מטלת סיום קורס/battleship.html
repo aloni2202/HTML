@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battleship Game</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/battleshipstyle.css">
     <script src="script/battleshipMain.js" type="module" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -14,9 +14,10 @@
     <div class="container">
         <h1>משחק צוללות - Battleship</h1>
 
+        <!-- מסך הגדרות -->
         <div id="setup-container">
             <h3>הגדרות לוח וספינות</h3>
-            <p>
+            <div class="form-group">
                 <label for="grid-size">בחר גודל לוח המשחק:</label>
                 <select id="grid-size">
                     <option value="10">10 X 10</option>
@@ -26,37 +27,39 @@
                     <option value="14">14 X 14</option>
                     <option value="15">15 X 15</option>
                 </select>
-            </p>
+            </div>
 
             <div class="ships-input">
                 <p>הזן כמות ספינות קרב מכל גודל (2 עד 5):</p>
-                <p><label>ספינה בגודל 2: <input type="number" id="ship-size-2" min="0" value="1"></label></p>
-                <p><label>ספינה בגודל 3: <input type="number" id="ship-size-3" min="0" value="1"></label></p>
-                <p><label>ספינה בגודל 4: <input type="number" id="ship-size-4" min="0" value="1"></label></p>
-                <p><label>ספינה בגודל 5: <input type="number" id="ship-size-5" min="0" value="1"></label></p>
+                <div class="input-row"><label for="ship-size-2">ספינה בגודל 2:</label> <input type="number" id="ship-size-2" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-3">ספינה בגודל 3:</label> <input type="number" id="ship-size-3" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-4">ספינה בגודל 4:</label> <input type="number" id="ship-size-4" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-5">ספינה בגודל 5:</label> <input type="number" id="ship-size-5" min="0" value="1"></div>
             </div>
 
-            <button id="start-game-btn">התחל משחק</button>
+            <button id="start-game-btn" class="primary-btn">התחל משחק</button>
         </div>
 
-        <div id="game-container" style="display: none; align-items: flex-start; gap: 20px; margin-top: 20px;">
-            <div id="board-grid" style="border: 3px solid blue; padding: 5px;"></div>
+        <!-- מסך המשחק -->
+        <div id="game-container" class="hidden">
+            <div id="board-grid"></div>
 
-            <div id="stats-sidebar" style="border: 3px solid black; padding: 0;">
-                <table style="border-collapse: collapse; width: 250px; text-align: right; font-family: sans-serif;">
+            <div id="stats-sidebar">
+                <table class="stats-table">
                     <thead>
-                        <tr style="background-color: green; color: white;">
-                            <th colspan="2" style="padding: 8px; border-bottom: 2px solid black;">ספינות שנותרו ליריב:
-                            </th>
+                        <tr class="table-header-main">
+                            <th colspan="2">ספינות שנותרו ליריב:</th>
                         </tr>
-                        <tr style="background-color: darkgreen; color: white; font-size: 0.9em;">
-                            <th style="padding: 6px; border: 1px solid black;">סוג ספינה</th>
-                            <th style="padding: 6px; border: 1px solid black;">כמות שנשארה</th>
+                        <tr class="table-header-sub">
+                            <th>סוג ספינה</th>
+                            <th>כמות שנשארה</th>
                         </tr>
                     </thead>
                     <tbody id="ships-table-body">
                     </tbody>
                 </table>
+
+                <button id="back-to-profile-btn" class="secondary-btn">חזרה לפרופיל 👤</button>
             </div>
         </div>
     </div>

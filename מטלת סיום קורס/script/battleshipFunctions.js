@@ -24,19 +24,14 @@ function checkPlacementValid(row, col, shipSize, isVertical) {
         if (col + shipSize > currentBoardSize) return false;
     }
 
-    let startRow = row - 1;
-    if (startRow < 0) startRow = 0;
-
+    let startRow = row - 1 < 0 ? 0 : row - 1;
     let endRow = isVertical ? (row + shipSize) : (row + 1);
     if (endRow > currentBoardSize - 1) endRow = currentBoardSize - 1;
 
-    let startCol = col - 1;
-    if (startCol < 0) startCol = 0;
-
+    let startCol = col - 1 < 0 ? 0 : col - 1;
     let endCol = isVertical ? (col + 1) : (col + shipSize);
     if (endCol > currentBoardSize - 1) endCol = currentBoardSize - 1;
 
-    // תיקון תנאי הלולאות המקוננות למניעת תקיעה של הדפדפן
     for (let r = startRow; r <= endRow; r++) {
         for (let c = startCol; c <= endCol; c++) {
             if (boardMatrix[r][c].hasShip === true) {
@@ -46,7 +41,6 @@ function checkPlacementValid(row, col, shipSize, isVertical) {
     }
     return true;
 }
-
 
 export function generateRandomShips(shipCounts) {
     let shipIdCounter = 0;
@@ -93,18 +87,13 @@ export function drawGridDOM() {
     let gridContainer = document.querySelector('#board-grid');
     gridContainer.innerHTML = '';
 
-    gridContainer.style.display = 'grid';
-    gridContainer.style.gridTemplateColumns = `repeat(${currentBoardSize}, 40px)`;
-    gridContainer.style.gap = '2px';
+    // מעדכן את המשתנה הדינמי ב-CSS למספר העמודות
+    gridContainer.style.setProperty('--board-size', currentBoardSize);
 
     for (let r = 0; r < currentBoardSize; r++) {
         for (let c = 0; c < currentBoardSize; c++) {
             let gridCell = document.createElement('div');
-
-            gridCell.style.width = '40px';
-            gridCell.style.height = '40px';
-            gridCell.style.backgroundColor = 'gray';
-            gridCell.style.cursor = 'pointer';
+            gridCell.classList.add('grid-cell');
 
             gridCell.setAttribute('data-row', r);
             gridCell.setAttribute('data-col', c);
@@ -121,26 +110,20 @@ export function updateSidebarStats() {
 
     let sizeCounters = { 2: 0, 3: 0, 4: 0, 5: 0 };
     for (let i = 0; i < shipsStatusList.length; i++) {
-
         if (shipsStatusList[i].isSunk === false) {
             let shipSize = shipsStatusList[i].size;
             sizeCounters[shipSize]++;
         }
     }
 
-
     for (let size = 2; size <= 5; size++) {
         let row = document.createElement('tr');
 
         let nameCell = document.createElement('td');
         nameCell.innerText = `ספינה בגודל ${size}`;
-        nameCell.style.padding = '6px';
-        nameCell.style.border = '1px solid black';
 
         let countCell = document.createElement('td');
         countCell.innerText = sizeCounters[size];
-        countCell.style.padding = '6px';
-        countCell.style.border = '1px solid black';
 
         row.appendChild(nameCell);
         row.appendChild(countCell);
@@ -159,14 +142,10 @@ function onCellClicked(event) {
         return;
     }
     cellData.isHit = true;
-
-    clickedCell.style.display = 'flex';
-    clickedCell.style.alignItems = 'center';
-    clickedCell.style.justifyContent = 'center';
-    clickedCell.style.fontSize = '1.5rem';
+    clickedCell.classList.add('revealed');
 
     if (cellData.hasShip === true) {
-        clickedCell.style.backgroundColor = 'orange';
+        clickedCell.classList.add('hit');
         clickedCell.innerText = '🚢';
 
         let hitShip = null;
@@ -184,49 +163,34 @@ function onCellClicked(event) {
             triggerExplosionEffects();
         }
     } else {
-        clickedCell.style.backgroundColor = 'blue';
+        clickedCell.classList.add('miss');
         clickedCell.innerText = '🌊';
     }
 }
 
 function triggerExplosionEffects() {
-
     let explosionSound = new Audio('style/explosion.mp3');
     explosionSound.volume = 0.5;
     explosionSound.play().catch(function (error) {
         console.log("הדפדפן חסם אודיו אוטומטי:", error);
     });
 
-
     let tableBody = document.querySelector('#ships-table-body');
     let logRow = document.createElement('tr');
-    logRow.style.backgroundColor = '#ffe6e6';
+    logRow.classList.add('log-row');
 
     let logCell = document.createElement('td');
     logCell.setAttribute('colspan', '2');
     logCell.innerText = '💥 ספינה הושמדה לחלוטין!';
-    logCell.style.padding = '8px';
-    logCell.style.textAlign = 'center';
-    logCell.style.color = 'red';
-    logCell.style.fontWeight = 'bold';
-    logCell.style.border = '1px solid black';
+    logCell.classList.add('log-cell');
 
     logRow.appendChild(logCell);
     tableBody.appendChild(logRow);
 
     let boomNotification = document.createElement('div');
     boomNotification.innerText = '💥 BOOM! 💥';
-    boomNotification.style.position = 'fixed';
-    boomNotification.style.top = '50%';
-    boomNotification.style.left = '50%';
-    boomNotification.style.transform = 'translate(-50%, -50%)';
-    boomNotification.style.fontSize = '5rem';
-    boomNotification.style.fontWeight = 'bold';
-    boomNotification.style.color = 'red';
-    boomNotification.style.textShadow = '3px 3px 10px black';
-    boomNotification.style.zIndex = '9999';
+    boomNotification.classList.add('boom-banner');
     document.body.appendChild(boomNotification);
-
 
     setTimeout(function () {
         boomNotification.remove();
@@ -256,10 +220,8 @@ function checkGameStatus() {
             backdrop: `rgba(0,0,0,0.4)`
         }).then((result) => {
             if (result.isConfirmed) {
-                // טעינה מחדש של עמוד המשחק
                 window.location.reload();
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // מעבר לעמוד הפרופיל
                 window.location.href = 'profile.html';
             }
         });

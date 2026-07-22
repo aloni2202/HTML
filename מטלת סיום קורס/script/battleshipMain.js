@@ -1,11 +1,11 @@
-// ייבאנו את הפונקציה במקום את המשתנה עצמו
 import { setCurrentBoardSize } from './battleshipVars.js';
 import { initBoardMatrix, generateRandomShips, drawGridDOM, updateSidebarStats } from './battleshipFunctions.js';
 
 function main() {
     let startButton = document.querySelector('#start-game-btn');
-    
-    startButton.addEventListener('click', function() {
+    let backToProfileBtn = document.querySelector('#back-to-profile-btn');
+
+    startButton.addEventListener('click', function () {
         let sizeSelector = document.querySelector('#grid-size');
         let selectedSize = Number(sizeSelector.value);
 
@@ -15,13 +15,19 @@ function main() {
         let count5 = Number(document.querySelector('#ship-size-5').value);
 
         if (count2 === 0 && count3 === 0 && count4 === 0 && count5 === 0) {
-            alert('שגיאה: חסרים נתונים. עליך לבחור לפחות ספינה אחת כדי להתחיל.');
+            Swal.fire({
+                title: 'אופס, משהו לא תקין!',
+                text: 'עליך לבחור לפחות ספינה אחת כדי להתחיל.',
+                icon: 'error',
+                confirmButtonText: 'הבנתי, אתקן',
+                confirmButtonColor: '#d33',
+                backdrop: `rgba(0,0,0,0.4)`
+            });
             return;
         }
 
-        // השימוש בפונקציה מעדכן את המשתנה בקובץ השני בצורה חוקית ובטוחה
-        setCurrentBoardSize(selectedSize); 
-        
+        setCurrentBoardSize(selectedSize);
+
         let shipsConfiguration = {
             2: count2,
             3: count3,
@@ -32,12 +38,18 @@ function main() {
         initBoardMatrix(selectedSize);
         generateRandomShips(shipsConfiguration);
 
-        document.querySelector('#setup-container').style.display = 'none';
-        document.querySelector('#game-container').style.display = 'flex';
+        document.querySelector('#setup-container').classList.add('hidden');
+        document.querySelector('#game-container').classList.remove('hidden');
 
         drawGridDOM();
         updateSidebarStats();
     });
+
+    if (backToProfileBtn) {
+        backToProfileBtn.addEventListener('click', function () {
+            window.location.href = 'profile.html';
+        });
+    }
 }
 
 main();
