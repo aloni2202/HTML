@@ -87,7 +87,6 @@ export function drawGridDOM() {
     let gridContainer = document.querySelector('#board-grid');
     gridContainer.innerHTML = '';
 
-    // מעדכן את המשתנה הדינמי ב-CSS למספר העמודות
     gridContainer.style.setProperty('--board-size', currentBoardSize);
 
     for (let r = 0; r < currentBoardSize; r++) {

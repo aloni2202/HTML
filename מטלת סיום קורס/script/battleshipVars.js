@@ -7,4 +7,4 @@ export function updateBoardSizeInVars(size) {
 }
 export function setCurrentBoardSize(size) {
     currentBoardSize = size;
-}
+}  

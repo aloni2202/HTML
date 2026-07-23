@@ -14,33 +14,35 @@
     <div class="container">
         <h1>משחק צוללות - Battleship</h1>
 
-        <!-- מסך הגדרות -->
         <div id="setup-container">
             <h3>הגדרות לוח וספינות</h3>
             <div class="form-group">
                 <label for="grid-size">בחר גודל לוח המשחק:</label>
                 <select id="grid-size">
-                    <option value="10">10 X 10</option>
-                    <option value="11">11 X 11</option>
-                    <option value="12">12 X 12</option>
-                    <option value="13">13 X 13</option>
-                    <option value="14">14 X 14</option>
-                    <option value="15">15 X 15</option>
+                    <option value="10">10 &#215; 10</option> //&#215 זה סימן של כפל (×)
+                    <option value="11">11 &#215; 11</option>
+                    <option value="12">12 &#215; 12</option>
+                    <option value="13">13 &#215; 13</option>
+                    <option value="14">14 &#215; 14</option>
+                    <option value="15">15 &#215; 15</option>
                 </select>
             </div>
 
             <div class="ships-input">
                 <p>הזן כמות ספינות קרב מכל גודל (2 עד 5):</p>
-                <div class="input-row"><label for="ship-size-2">ספינה בגודל 2:</label> <input type="number" id="ship-size-2" min="0" value="1"></div>
-                <div class="input-row"><label for="ship-size-3">ספינה בגודל 3:</label> <input type="number" id="ship-size-3" min="0" value="1"></div>
-                <div class="input-row"><label for="ship-size-4">ספינה בגודל 4:</label> <input type="number" id="ship-size-4" min="0" value="1"></div>
-                <div class="input-row"><label for="ship-size-5">ספינה בגודל 5:</label> <input type="number" id="ship-size-5" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-2">ספינה בגודל 2:</label> <input type="number"
+                        id="ship-size-2" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-3">ספינה בגודל 3:</label> <input type="number"
+                        id="ship-size-3" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-4">ספינה בגודל 4:</label> <input type="number"
+                        id="ship-size-4" min="0" value="1"></div>
+                <div class="input-row"><label for="ship-size-5">ספינה בגודל 5:</label> <input type="number"
+                        id="ship-size-5" min="0" value="1"></div>
             </div>
 
             <button id="start-game-btn" class="primary-btn">התחל משחק</button>
         </div>
 
-        <!-- מסך המשחק -->
         <div id="game-container" class="hidden">
             <div id="board-grid"></div>
 
