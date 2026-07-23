@@ -1,6 +1,5 @@
 import { User, getAllUsers, validatePassword, validateAge, validateEmailFormat } from './functions.js';
 
-// 🌟 משתנה ריק שיתמלא בצורה דינמית מקובץ ה-JSON המקומי שלך
 let citiesDatabase = [];
 
 const registrationForm = document.querySelector('form');
@@ -12,7 +11,6 @@ const citiesList = document.getElementById('citiesList');
 
 let profileImageBase64 = '';
 
-// 🌟 עדכון: הצגת הודעות שגיאה בחלונית SweetAlert2 מעוצבת במרכז המסך
 function showError(message) {
     Swal.fire({
         title: 'אופס, משהו לא תקין!',
@@ -24,7 +22,6 @@ function showError(message) {
     });
 }
 
-// 🌟 מנגנון אוטוקומפליט מעודכן שמתאים למבנה האובייקטים של ה-JSON החדש
 function updateCityOptions(filterValue) {
     if (!citiesList) return;
     citiesList.innerHTML = '';
@@ -32,12 +29,10 @@ function updateCityOptions(filterValue) {
 
     const normalizedFilter = filterValue.toLowerCase();
 
-    // סינון מתוך המבנה של האובייקטים החדשים
     const filteredCities = citiesDatabase.filter((cityObj) => 
         cityObj["שם_ישוב"] && cityObj["שם_ישוב"].toLowerCase().includes(normalizedFilter)
     );
 
-    // מיון חכם: ערים שמתחילות באות שהוקלדה יופיעו קודם
     filteredCities.sort((a, b) => {
         const aName = a["שם_ישוב"];
         const bName = b["שם_ישוב"];
@@ -49,7 +44,6 @@ function updateCityOptions(filterValue) {
         return aName.localeCompare(bName);
     });
 
-    // הזרקת האופציות לתוך ה-Datalist
     filteredCities.forEach((cityObj) => {
         const option = document.createElement('option');
         option.value = cityObj["שם_ישוב"];
@@ -63,7 +57,6 @@ if (cityInput) {
     });
 }
 
-// קריאת קובץ התמונה והמרתו ל-Base64
 function getSelectedFileBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -78,7 +71,6 @@ if (profileImageInput) {
         const file = profileImageInput.files[0];
         if (!file) return;
 
-        // בדיקת סיומת הקובץ (JPG או JPEG בלבד)
         const isValidExtension = /\.(jpe?g)$/i.test(file.name);
         if (!isValidExtension) {
             profileImageInput.value = '';
@@ -95,7 +87,6 @@ if (profileImageInput) {
     });
 }
 
-// אירוע שליחת טופס ההרשמה
 if (registrationForm) {
     registrationForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -111,57 +102,48 @@ if (registrationForm) {
         const street = document.getElementById('street')?.value.trim();
         const houseNumberValue = document.getElementById('houseNumber')?.value.trim();
 
-        // 1. בדיקת שדות חובה ריקים
         if (!username || !password || !confirmPassword || !firstName || !lastName || !email || !dateOfBirth || !city || !street || !houseNumberValue) {
             showError('יש למלא את כל השדות בטופס.');
             return;
         }
 
-        // 2. ולידציה לחסימת עברית בשם המשתמש
         const usernameRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
         if (!usernameRegex.test(username)) {
             showError('שם המשתמש אינו חוקי. יש להשתמש באותיות באנגלית, מספרים וסימנים בלבד (ללא עברית).');
             return;
         }
 
-        // 3. ולידציית רחוב (אותיות בעברית בלבד)
         if (!/^[א-ת\s]+$/u.test(street)) {
             showError('שם הרחוב שגוי. יש להזין רק אותיות בעברית ורווחים.');
             return;
         }
 
-        // 4. ולידציית מספר בית (חיובי בלבד)
         const houseNumber = Number(houseNumberValue);
         if (!Number.isInteger(houseNumber) || houseNumber <= 0) {
             showError('מספר הבית אינו תקין. יש להזין מספר חיובי שלם.');
             return;
         }
 
-        // 5. בדיקת התאמת סיסמאות
         if (password !== confirmPassword) {
             showError('הסיסמאות שנקלטו אינן תואמות. אנא ודא ששתי הסיסמאות זהות.');
             return;
         }
 
-        // 6. ולידציית מורכבות סיסמה
         if (!validatePassword(password)) {
             showError('הסיסמה חלשה מדי. עליה להכיל 7-12 תווים, אות גדולה, מספר ותו מיוחד.');
             return;
         }
 
-        // 7. ולידציית גיל תקין
         if (!validateAge(dateOfBirth)) {
             showError('תאריך הלידה אינו תקין. הגיל במערכת מוגבל בין 1 ל-119.');
             return;
         }
 
-        // 8. ולידציית פורמט מייל
         if (!validateEmailFormat(email)) {
             showError('כתובת האימייל אינה במבנה תקין. יש להזין אימייל הכולל @ ומסתיים ב- .com');
             return;
         }
 
-        // 9. בדיקת כפל מיילים מאובטחת ומניעת קריסות
         const users = getAllUsers();
         const emailExists = users.some((user) => user && user.email && user.email.toLowerCase() === email.toLowerCase()); 
         if (emailExists) {
@@ -169,13 +151,11 @@ if (registrationForm) {
             return;
         }
 
-        // 10. בדיקת תמונת פרופיל חובה בהרשמה ראשונית
         if (!profileImageBase64) {
             showError('אנא העלה תמונת פרופיל בפורמט JPG או JPEG כדי להשלים את ההרשמה.');
             return;
         }
 
-        // יצירת המשתמש החדש
         const newUser = new User({
             username,
             password,
@@ -189,11 +169,9 @@ if (registrationForm) {
             profileImage: profileImageBase64
         });
 
-        // שמירה ב-Local Storage
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
 
-        // הודעה מעוצבת במרכז המסך וניתוב מחדש
         Swal.fire({
             title: 'ההרשמה בוצעה בהצלחה!',
             text: 'ברוך הבא! מועבר לדף ההתחברות...',
@@ -209,10 +187,9 @@ if (registrationForm) {
     });
 }
 
-// 🌟 טעינה אסינכרונית של קובץ ה-JSON המקומי עם פתיחת עמוד ההרשמה
 async function initRegistration() {
     try {
-        const response = await fetch('./cities.json'); // קריאה לקובץ ה-JSON המקומי שלך
+        const response = await fetch('./cities.json'); 
         citiesDatabase = await response.json();
     } catch (error) {
         console.error("שגיאה בטעינת רשימת הערים:", error);

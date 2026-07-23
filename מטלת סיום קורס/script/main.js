@@ -3,21 +3,19 @@ import { getAllUsers, showError, clearError } from './functions.js';
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     
-    // אם אנחנו לא בדף ההתחברות, הפונקציה תעצור כאן ולא תזרוק שגיאות בדפים אחרים
     if (!loginForm) return; 
 
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const errorMsg = document.getElementById('errorMsg');
 
-    // יצירת משתמש אדמין סטטי בתוך המאגר במידה והוא לא קיים
     let currentUsersList = JSON.parse(localStorage.getItem('users')) || [];
     const adminExists = currentUsersList.some(user => user.username === 'admin');
     
     if (!adminExists) {
         currentUsersList.push({
             username: 'admin',
-            password: 'admin1234admin', // הסיסמה המקורית של המרצה
+            password: 'admin1234admin', 
             firstName: 'מנהל',
             lastName: 'מערכת',
             role: 'admin'
@@ -25,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('users', JSON.stringify(currentUsersList));
     }
 
-    // טיפול בשליחת טופס ההתחברות וולידציות
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         clearError(errorMsg);
@@ -33,13 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
 
-        // 1. בדיקה ששני השדות מלאים (שדות חובה)
         if (!username || !password) {
             showError(errorMsg, 'נא למלא את כל השדות (שם משתמש וסיסמה הם חובה).');
             return;
         }
 
-        // 2. חסימת עברית בשם המשתמש (מאפשר רק אותיות לועזיות, מספרים ותווים מיוחדים)
         const usernameRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
         if (!usernameRegex.test(username)) {
             showError(errorMsg, 'שם המשתמש חייב להכיל אותיות לועזיות (באנגלית), מספרים או תווים מיוחדים בלבד.');
@@ -48,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const users = getAllUsers();
 
-        // 3. בדיקת התחברות מנהל מערכת (Admin)
         if (username === 'admin' && password === 'admin1234admin') {
             sessionStorage.setItem('currentUser', JSON.stringify({
                 username: 'admin',
@@ -60,16 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 4. חיפוש משתמש רגיל במאגר הנתונים
         const foundUser = users.find((user) => user.username === username && user.password === password);
 
-        // אם המשתמש לא נמצא
         if (!foundUser) {
             showError(errorMsg, 'שם משתמש או סיסמה שגויים או שאינם קיימים במאגר.');
             return;
         }
 
-        // 5. התחברות מוצלחת! שמירה ב-Session ומעבר לפרופיל
         sessionStorage.setItem('currentUser', JSON.stringify(foundUser));
         window.location.href = 'profile.html';
     });

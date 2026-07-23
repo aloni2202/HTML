@@ -1,4 +1,3 @@
-// פונקציות עזר להצגה והסתרה של שגיאות במסכים
 export function showError(errorElement, message) {
     if (errorElement) {
         errorElement.textContent = message;
@@ -13,7 +12,6 @@ export function clearError(errorElement) {
     }
 }
 
-// הגדרת מבנה אובייקט המשתמש במערכת (User Class)
 export class User {
     constructor({ username, password, firstName, lastName, email, dateOfBirth, city, street, houseNumber, profileImage }) {
         this.username = username;
@@ -29,7 +27,6 @@ export class User {
     }
 }
 
-// שליפת כל המשתמשים מ-Local Storage בצורה בטוחה
 export function getAllUsers() {
     try {
         const usersData = localStorage.getItem('users');
@@ -40,7 +37,6 @@ export function getAllUsers() {
     }
 }
 
-// ולידציית מורכבות סיסמה: 7-12 תווים, אות גדולה, מספר ותו מיוחד
 export function validatePassword(password) {
     if (password.length < 7 || password.length > 12) return false;
     const hasUpperCase = /[A-Z]/.test(password);
@@ -49,7 +45,6 @@ export function validatePassword(password) {
     return hasUpperCase && hasNumber && hasSpecialChar;
 }
 
-// ולידציית גיל תקין: חישוב מול תאריך נוכחי (גיל בין 0 ל-120)
 export function validateAge(dateOfBirthString) {
     if (!dateOfBirthString) return false;
     const birthDate = new Date(dateOfBirthString);
@@ -65,16 +60,12 @@ export function validateAge(dateOfBirthString) {
     return age >= 0 && age <= 120;
 }
 
-// ולידציית פורמט מייל: @ אחד בלבד וסיומת .com בלבד
 export function validateEmailFormat(email) {
-    // בודק שהמייל מסתיים ב-.com באותיות קטנות בלבד
     if (!email.toLowerCase().endsWith('.com')) return false;
     
-    // סופר כמה פעמים מופיע התו @
     const atCount = (email.match(/@/g) || []).length;
     if (atCount !== 1) return false;
     
-    // בדיקת תווים בסיסית באנגלית
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 }

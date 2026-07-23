@@ -10,10 +10,9 @@ const citiesList = document.getElementById('citiesList');
 const editForm = document.querySelector('form');
 const errorContainer = document.getElementById('registrationError');
 
-let originalUser = null; // המשתמש שאת פרטיו עורכים כרגע
+let originalUser = null; 
 let profileImageBase64 = ''; 
-let isModeAdminEditing = false; // דגל שמסמן האם מנהל עורך כרגע משתמש אחר
-
+let isModeAdminEditing = false; 
 function showError(message) {
     Swal.fire({
         title: 'אופס, משהו לא תקין!',
@@ -88,7 +87,6 @@ function populateForm(user) {
         profileImageName.textContent = user.profileImage ? 'תמונה קיימת נטענת' : 'פורמטים נתמכים: JPG, JPEG';
     }
 
-    // 🌟 אם מנהל עורך, נסתיר או ננטרל את שדות הסיסמה בטופס
     if (isModeAdminEditing) {
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirmPassword');
@@ -101,7 +99,6 @@ function handleFormSubmit(event) {
     event.preventDefault();
     clearError();
 
-    // קריאת הערכים מהטופס
     const username = document.getElementById('userName')?.value.trim();
     const password = document.getElementById('password')?.value || '';
     const confirmPassword = document.getElementById('confirmPassword')?.value || '';
@@ -113,7 +110,6 @@ function handleFormSubmit(event) {
     const street = document.getElementById('street')?.value.trim();
     const houseNumberValue = document.getElementById('houseNumber')?.value.trim();
 
-    // 🌟 פתרון דרישה במצב מנהל: אם שדה ריק, לוקחים את ברירת המחדל המקורית של המשתמש
     const finalUsername = username || originalUser.username;
     const finalFirstName = firstName || originalUser.firstName;
     const finalLastName = lastName || originalUser.lastName;
@@ -124,7 +120,6 @@ function handleFormSubmit(event) {
     const finalHouseNumber = houseNumberValue ? Number(houseNumberValue) : originalUser.houseNumber;
     const finalProfileImage = profileImageBase64 || originalUser.profileImage;
 
-    // 1. בדיקת שדות ריקים - חלה רק על משתמש רגיל! מנהל פטור ויקבל ברירות מחדל
     if (!isModeAdminEditing) {
         if (!username || !firstName || !lastName || !email || !dateOfBirth || !city || !street || !houseNumberValue) {
             showError('יש למלא את כל השדות בטופס.');
@@ -132,27 +127,23 @@ function handleFormSubmit(event) {
         }
     }
 
-    // 2. חסימת אותיות בעברית בשם המשתמש
     const usernamePattern = /^[A-Za-z0-9!@#$%^&*()_+={}[\]|\\:;'<>,.?/-]+$/;
     if (finalUsername && !usernamePattern.test(finalUsername)) {
         showError('שם המשתמש אינו חוקי. יש להשתמש באותיות באנגלית, מספרים וסימנים בלבד (ללא עברית).');
         return;
     }
 
-    // 3. בדיקת רחוב בעברית
     const streetPattern = /^[א-ת\s]+$/u;
     if (finalStreet && !streetPattern.test(finalStreet)) {
         showError('שם הרחוב שגוי. יש להזין רק אותיות בעברית ורווחים.');
         return;
     }
 
-    // 4. מספר בית חיובי
     if (finalHouseNumber && (!Number.isInteger(finalHouseNumber) || finalHouseNumber <= 0)) {
         showError('מספר הבית אינו תקין. יש להזין מספר חיובי שלם.');
         return;
     }
 
-    // 5. תקינות סיסמה (רק למשתמש רגיל ובמידה והזין ערך חדש)
     if (!isModeAdminEditing && (password || confirmPassword)) {
         if (password !== confirmPassword) {
             showError('הסיסמאות שנקלטו אינן תואמות. אנא ודא ששתי הסיסמאות זהות.');
@@ -164,19 +155,16 @@ function handleFormSubmit(event) {
         }
     }
 
-    // 6. בדיקת גיל
     if (finalDateOfBirth && !validateAge(finalDateOfBirth)) {
         showError('תאריך הלידה אינו תקין. הגיל במערכת מוגבל בין 1 ל-119.');
         return;
     }
 
-    // 7. פורמט אימייל
     if (finalEmail && !validateEmailFormat(finalEmail)) {
         showError('כתובת האימייל אינה במבנה תקין. יש להזין אימייל הכולל @ ומסתיים ב- .com');
         return;
     }
 
-    // 8. בדיקת כפל מיילים מוגנת
     const users = getAllUsers();
     const emailExists = users.some((user) => {
         if (!user || !user.email) return false;
@@ -189,7 +177,6 @@ function handleFormSubmit(event) {
         return;
     }
 
-    // בניית אובייקט משתמש מעודכן
     const updatedUser = new User({
         username: finalUsername,
         password: isModeAdminEditing ? originalUser.password : (password || originalUser.password),
@@ -204,7 +191,6 @@ function handleFormSubmit(event) {
         role: originalUser.role || 'user' // שומר על התפקיד המקורי שלו (למשל אם הוא עצמו אדמין)
     });
 
-    // עדכון במערך הגלובלי
     const userIndex = users.findIndex((user) => originalUser && user.email && user.email.toLowerCase() === originalUser.email.toLowerCase());
     if (userIndex >= 0) {
         users[userIndex] = updatedUser;
@@ -214,12 +200,10 @@ function handleFormSubmit(event) {
 
     localStorage.setItem('users', JSON.stringify(users));
 
-    // עדכון ה-session רק אם המשתמש הנוכחי עדכן את עצמו (ולא מנהל שעדכן מישהו אחר)
     if (!isModeAdminEditing) {
         sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
     }
 
-    // ניקוי מפתח העריכה של האדמין בסיום
     localStorage.removeItem('editUserTarget');
 
     Swal.fire({
@@ -251,7 +235,6 @@ async function init() {
         return;
     }
 
-    // 🌟 בדיקה האם מדובר במנהל שהגיע לערוך משתמש ספציפי
     const adminTargetUsername = localStorage.getItem('editUserTarget');
     
     if (adminTargetUsername && loggedInUser.role === 'admin') {
@@ -265,7 +248,6 @@ async function init() {
             return;
         }
     } else {
-        // מצב רגיל - משתמש עורך את עצמו
         originalUser = loggedInUser;
     }
 
