@@ -121,22 +121,24 @@ select {
     margin-top: 20px;
 }
 
+/* רקע הלוח (המסגרת/הרווחים שבין המשבצות) */
 #board-grid {
     display: grid;
     grid-template-columns: repeat(var(--board-size, 10), 40px);
     gap: 3px;
-    border: 3px solid #1d4ed8;
+    border: 3px solid #4a5568; /* מסגרת אפורה כהה במקום כחול */
     padding: 6px;
-    background-color: #1e293b;
+    background-color: #2d3748; /* רקע אפור כהה ניטרלי במקום כחול-כהה */
     border-radius: 8px;
     overflow-x: auto;
     max-width: 100%;
 }
 
+/* המשבצות האפורות של הלוח (לפני לחיצה) */
 .grid-cell {
     width: 40px;
     height: 40px;
-    background-color: #94a3b8;
+    background-color: #a0aec0; /* אפור נקי במקום אפור-כחלחל */
     cursor: pointer;
     border-radius: 4px;
     display: flex;
@@ -147,11 +149,11 @@ select {
     transition: background-color 0.2s, transform 0.1s;
 }
 
+/* אפקט רפרוף העכבר על משבצת */
 .grid-cell:hover:not(.revealed) {
-    background-color: #cbd5e1;
+    background-color: #cbd5e0; /* אפור בהיר יותר ברחף */
     transform: scale(1.05);
 }
-
 .grid-cell.revealed.hit {
     background-color: #f97316;
 }
