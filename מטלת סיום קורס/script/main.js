@@ -1,27 +1,20 @@
-import { getAllUsers, showError, clearError } from './functions.js';
+import { 
+    getAllUsers, 
+    showError, 
+    clearError, 
+    ensureAdminExists, 
+    authenticateUser 
+} from './functions.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
-    
     if (!loginForm) return; 
 
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
     const errorMsg = document.getElementById('errorMsg');
 
-    let currentUsersList = JSON.parse(localStorage.getItem('users')) || [];
-    const adminExists = currentUsersList.some(user => user.username === 'admin');
-    
-    if (!adminExists) {
-        currentUsersList.push({
-            username: 'admin',
-            password: 'admin1234admin', 
-            firstName: 'מנהל',
-            lastName: 'מערכת',
-            role: 'admin'
-        });
-        localStorage.setItem('users', JSON.stringify(currentUsersList));
-    }
+    ensureAdminExists();
 
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -41,8 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const users = getAllUsers();
-
         if (username === 'admin' && password === 'admin1234admin') {
             sessionStorage.setItem('currentUser', JSON.stringify({
                 username: 'admin',
@@ -54,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const foundUser = users.find((user) => user.username === username && user.password === password);
+        const foundUser = authenticateUser(username, password);
 
         if (!foundUser) {
             showError(errorMsg, 'שם משתמש או סיסמה שגויים או שאינם קיימים במאגר.');

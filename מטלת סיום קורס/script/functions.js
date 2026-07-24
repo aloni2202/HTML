@@ -69,3 +69,62 @@ export function validateEmailFormat(email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 }
+
+
+export function checkAdminPermission() {
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    return currentUser && currentUser.role === 'admin';
+}
+
+
+export function getRegularUsers() {
+    const allUsers = JSON.parse(localStorage.getItem('users')) || [];
+    return allUsers.filter(user => user.username !== 'admin' && user.role !== 'admin');
+}
+
+
+export function formatUserData(user) {
+    return {
+        fullName: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'לא הוזן',
+        fullAddress: `${user.street || ''} ${user.houseNumber || ''}, ${user.city || ''}`.trim() || 'לא הוזן',
+        birthDateDisplay: user.dateOfBirth || 'לא הוזן'
+    };
+}
+
+
+export function deleteUserByUsername(usernameToDelete) {
+    const allUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const updatedUsers = allUsers.filter(user => user.username !== usernameToDelete);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+}
+
+
+export function navigateToEditProfile(username) {
+    localStorage.setItem('editUserTarget', username);
+    window.location.href = 'edit-profile.html';
+}
+
+
+
+
+
+export function ensureAdminExists() {
+    let currentUsersList = getAllUsers();
+    const adminExists = currentUsersList.some(user => user.username === 'admin');
+    
+    if (!adminExists) {
+        currentUsersList.push({
+            username: 'admin',
+            password: 'admin1234admin', 
+            firstName: 'מנהל',
+            lastName: 'מערכת',
+            role: 'admin'
+        });
+        localStorage.setItem('users', JSON.stringify(currentUsersList));
+    }
+}
+
+export function authenticateUser(username, password) {
+    const users = getAllUsers();
+    return users.find(user => user.username === username && user.password === password) || null;
+}

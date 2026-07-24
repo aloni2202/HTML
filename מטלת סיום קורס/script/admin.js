@@ -1,4 +1,11 @@
-// --- לוגיקת דף מנהל המערכת (Admin Page) ---
+import { 
+    checkAdminPermission, 
+    getRegularUsers, 
+    formatUserData, 
+    deleteUserByUsername, 
+    navigateToEditProfile 
+} from './functions.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const adminTable = document.getElementById('adminUsersTable');
     if (!adminTable) return; 
@@ -6,13 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableBody = adminTable.querySelector('tbody');
     const usersCountEl = document.getElementById('usersCount');
 
-    // בדיקת הרשאות מנהל
-    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    if (!currentUser || currentUser.role !== 'admin') {
+   if (!checkAdminPermission()) {
         Swal.fire({
-            title: 'גישה חסומה!',
-            text: 'אין לך הרשאות לצפות בדף זה.',
-            icon: 'error',
+            title: 'עמוד למנהלים בלבד',
+            text: 'עליך להזדהות כמנהל',
+            icon: 'warning',
             confirmButtonText: 'אישור',
             confirmButtonColor: '#0f3b66'
         }).then(() => {
@@ -20,34 +25,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         return;
     }
-
     function renderAdminTable() {
-        let dbUsers = JSON.parse(localStorage.getItem('users')) || [];
-        
+        const regularUsers = getRegularUsers();
+
         if (usersCountEl) {
-            usersCountEl.textContent = dbUsers.length;
+            usersCountEl.textContent = regularUsers.length;
         }
 
         tableBody.innerHTML = '';
 
-        if (dbUsers.length === 0) {
+        if (regularUsers.length === 0) {
             tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 32px; color: #718096;">אין משתמשים רשומים במערכת.</td></tr>`;
             return;
         }
 
-        dbUsers.forEach(function(user, index) {
+        regularUsers.forEach(function(user) {
             const tr = document.createElement('tr');
-            
-            // עיבוד הנתונים התואם לשדות של הפרויקט
-            const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'לא הוזן';
-            const fullAddress = `${user.street || ''} ${user.houseNumber || ''}, ${user.city || ''}`.trim() || 'לא הוזן';
-            const birthDateDisplay = user.dateOfBirth || 'לא הוזן';
+            const formatted = formatUserData(user);
 
             tr.innerHTML = `
                 <td><strong>${user.username || ''}</strong></td>
-                <td>${fullName}</td>
-                <td>${birthDateDisplay}</td>
-                <td>${fullAddress}</td>
+                <td>${formatted.fullName}</td>
+                <td>${formatted.birthDateDisplay}</td>
+                <td>${formatted.fullAddress}</td>
                 <td>${user.email || ''}</td>
                 <td>
                     <div class="actions-cell">
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </td>
             `;
 
-            // מנגנון מחיקה מאובטח ויפה
             tr.querySelector('.btn-delete').addEventListener('click', function() {
                 Swal.fire({
                     title: 'האם אתם בטוחים?',
@@ -70,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     cancelButtonText: 'ביטול'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteUser(index);
+                        deleteUserByUsername(user.username);
+                        renderAdminTable(); 
                         Swal.fire({
                             title: 'נמחק!',
                             text: 'המשתמש הוסר בהצלחה מהמערכת.',
@@ -81,21 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-            // 🌟 מנגנון עריכה מתוקן: מעביר לעמוד עריכת הפרופיל הנכון במקום להרשמה
+          
             tr.querySelector('.btn-edit').addEventListener('click', function() {
-                localStorage.setItem('editUserTarget', user.username);
-                window.location.href = 'edit-profile.html'; 
+                navigateToEditProfile(user.username);
             });
 
             tableBody.appendChild(tr);
         });
-    }
-
-    function deleteUser(index) {
-        let dbUsers = JSON.parse(localStorage.getItem('users')) || [];
-        dbUsers.splice(index, 1);
-        localStorage.setItem('users', JSON.stringify(dbUsers));
-        renderAdminTable();
     }
 
     renderAdminTable();
