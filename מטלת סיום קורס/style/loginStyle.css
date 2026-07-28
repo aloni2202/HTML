@@ -59,7 +59,6 @@ body.login-page {
     font-weight: 700;
 }
 
-/* הודעות שגיאה */
 .error-msg {
     color: var(--danger-color);
     font-weight: 600;
@@ -69,7 +68,6 @@ body.login-page {
     min-height: 20px;
 }
 
-/* שדות טופס */
 .form-group {
     margin-bottom: 18px;
 }
@@ -91,7 +89,7 @@ input[type="password"] {
     background: #ffffff;
     font-size: 15px;
     outline: none;
-    min-height: 44px; /* תאימות למגע */
+    min-height: 44px;
     transition: box-shadow .15s, border-color .15s;
 }
 
@@ -100,7 +98,6 @@ input:focus {
     border-color: var(--accent-color);
 }
 
-/* כפתור שליחה */
 .form-actions {
     margin-top: 24px;
 }
@@ -111,7 +108,7 @@ input:focus {
     justify-content: center;
     width: 100%;
     padding: 12px 16px;
-    min-height: 44px; /* תאימות למגע */
+    min-height: 44px; 
     border-radius: 10px;
     border: 0;
     background: var(--primary-color);
@@ -130,7 +127,6 @@ input:focus {
     transform: translateY(1px);
 }
 
-/* טקסט עזרה וקישורים */
 .helper {
     font-size: 14px;
     color: var(--muted-color);
@@ -149,9 +145,6 @@ input:focus {
     text-decoration: underline;
 }
 
-/* =========================================
-   📱 התאמה למובייל (Media Queries)
-   ========================================= */
 
 @media (max-width: 768px) {
     body.login-page {
@@ -170,7 +163,7 @@ input:focus {
     input[type="text"], 
     input[type="password"],
     .btn {
-        min-height: 48px; /* שטח מגע מוגדל ונוח בנייד */
-        font-size: 16px; /* מונע זום אוטומטי של דפדפני מובייל/iOS במיקוד */
-    }
+        min-height: 48px; 
+        font-size: 16px;
+}
 }

@@ -12,7 +12,6 @@ body.bg-light-green {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
-    /* מונע חיתוך של הטופס למעלה ומאפשר גלילה */
     display: flex;
     align-items: flex-start; 
     justify-content: center;
