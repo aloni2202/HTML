@@ -1,11 +1,6 @@
-/* =========================================
-   עיצוב מלא ועצמאי לדף עריכת פרופיל
-   ========================================= */
-
 * { box-sizing: border-box; }
 html { min-height: 100vh; }
 
-/* רקע ומבנה כללי */
 body.bg-light-green {
     margin: 0;
     min-height: 100vh;
@@ -13,13 +8,12 @@ body.bg-light-green {
     background: linear-gradient(135deg, #f0f7eb 0%, #e8f5e9 50%, #dcedc8 100%);
     color: #1b5e20;
     display: flex;
-    align-items: flex-start; /* חשוב מאוד כדי שאפשר יהיה לגלול בטופס ארוך */
+    align-items: flex-start; 
     justify-content: center;
     padding: 40px 24px;
     -webkit-font-smoothing: antialiased;
 }
 
-/* הכרטיסייה הלבנה */
 .card {
     width: 100%;
     max-width: 750px;
@@ -34,7 +28,6 @@ body.bg-light-green {
     border: 1px solid rgba(102, 187, 106, 0.2);
 }
 
-/* שדות ההקלדה */
 .form-control-light {
     background: #f1f8e9;
     color: #1b5e20;
@@ -52,7 +45,6 @@ body.bg-light-green {
     outline: none;
 }
 
-/* כפתורים */
 .btn {
     display: inline-block;
     padding: 12px 16px;
@@ -97,10 +89,8 @@ body.bg-light-green {
     cursor: pointer;
 }
 
-/* צבעי טקסט */
 .form-text-light, .text-secondary-light { color: #558b2f !important; }
 
-/* התאמה למובייל */
 @media (max-width: 767.98px) {
     body.bg-light-green { padding: 20px 14px; }
     .card { padding: 20px; }

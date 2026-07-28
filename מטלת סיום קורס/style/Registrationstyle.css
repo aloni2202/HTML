@@ -1,8 +1,4 @@
-/* =========================================
-   עיצוב ייעודי לדף ההרשמה (Light Green Theme)
-   ========================================= */
 
-/* 1. הגדרות תצוגה וגלילה למסך המלא */
 html {
     min-height: 100vh;
 }
@@ -23,7 +19,6 @@ body.bg-light-green {
     padding: 40px 24px;
 }
 
-/* 2. עיצוב הכרטיסייה הלבנה של הטופס */
 .card {
     width: 100%;
     max-width: 750px;
@@ -38,7 +33,6 @@ body.bg-light-green {
     border: 1px solid rgba(102, 187, 106, 0.2);
 }
 
-/* 3. עיצוב שדות ההקלדה (Inputs) */
 .form-control-light {
     background: #f1f8e9;
     color: #1b5e20;
@@ -57,7 +51,6 @@ body.bg-light-green {
     outline: none;
 }
 
-/* 4. עיצוב כפתורים ותגים */
 .btn-light-green {
     background-color: #66bb6a;
     border-color: #66bb6a;
@@ -95,7 +88,6 @@ body.bg-light-green {
     border-color: #66bb6a;
 }
 
-/* 5. טקסטים וכפתור תמונת פרופיל */
 .form-text-light {
     color: #558b2f;
 }
@@ -113,7 +105,6 @@ body.bg-light-green {
     cursor: pointer;
 }
 
-/* 6. התאמות למסכים קטנים (מובייל) */
 @media (max-width: 767.98px) {
     .card-body {
         padding: 1.75rem;
