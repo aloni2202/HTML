@@ -1,7 +1,7 @@
 import { User, getAllUsers, validatePassword, validateAge, validateEmailFormat } from './functions.js';
-
+//רשימת הערים תישמר במשתנה זה לאחר טעינת הקובץ JSON
 let citiesDatabase = [];
-
+//htmlתפיסת האלמנטים המרכזיים של טופס ה 
 const registrationForm = document.querySelector('form');
 const profileImageInput = document.getElementById('profileImage');
 const profileImageName = document.getElementById('profileImageName');
@@ -10,7 +10,7 @@ const cityInput = document.getElementById('city');
 const citiesList = document.getElementById('citiesList');
 
 let profileImageBase64 = '';
-
+// פונקציה שמציגה הודעת שגיאה למשתמש באמצעות ספריית SweetAlert2
 function showError(message) {
     Swal.fire({
         title: 'אופס, משהו לא תקין!',
@@ -21,7 +21,7 @@ function showError(message) {
         backdrop: `rgba(0,0,0,0.4)`
     });
 }
-
+// פונקציה שמעדכנת את רשימת הערים המוצעת בהתאם למה שהמשתמש מקליד
 function updateCityOptions(filterValue) {
     if (!citiesList) return;
     citiesList.innerHTML = '';
@@ -29,7 +29,7 @@ function updateCityOptions(filterValue) {
 
     const normalizedFilter = filterValue.toLowerCase();
 
-    const filteredCities = citiesDatabase.filter((cityObj) => 
+    const filteredCities = citiesDatabase.filter((cityObj) =>
         cityObj["שם_ישוב"] && cityObj["שם_ישוב"].toLowerCase().includes(normalizedFilter)
     );
 
@@ -38,7 +38,7 @@ function updateCityOptions(filterValue) {
         const bName = b["שם_ישוב"];
         const aStartsWith = aName.startsWith(filterValue);
         const bStartsWith = bName.startsWith(filterValue);
-        
+
         if (aStartsWith && !bStartsWith) return -1;
         if (!aStartsWith && bStartsWith) return 1;
         return aName.localeCompare(bName);
@@ -56,7 +56,7 @@ if (cityInput) {
         updateCityOptions(cityInput.value.trim());
     });
 }
-
+// פונקציה שמקבלת קובץ תמונה ומחזירה את התוכן שלו כבסיס 64
 function getSelectedFileBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -86,11 +86,11 @@ if (profileImageInput) {
         }
     });
 }
-
+//תופס את אירוע השליחה של הטופס ועוצר את רענון העמוד הברירת-מחדלי של הדפדפן 
 if (registrationForm) {
     registrationForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
+//שליפת כל השדות מהטופס וניקוי רווחים מיותרים עם טרים
         const username = document.getElementById('userName')?.value.trim();
         const password = document.getElementById('password')?.value;
         const confirmPassword = document.getElementById('confirmPassword')?.value;
@@ -101,12 +101,12 @@ if (registrationForm) {
         const city = document.getElementById('city')?.value.trim();
         const street = document.getElementById('street')?.value.trim();
         const houseNumberValue = document.getElementById('houseNumber')?.value.trim();
-
+// בדיקה אם כל השדות מולאו, ואם לא, מציג הודעת שגיאה ומפסיק את ההרשמה
         if (!username || !password || !confirmPassword || !firstName || !lastName || !email || !dateOfBirth || !city || !street || !houseNumberValue) {
             showError('יש למלא את כל השדות בטופס.');
             return;
         }
-
+//בדיקות ולידציה 
         const usernameRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/;
         if (!usernameRegex.test(username)) {
             showError('שם המשתמש אינו חוקי. יש להשתמש באותיות באנגלית, מספרים וסימנים בלבד (ללא עברית).');
@@ -123,7 +123,7 @@ if (registrationForm) {
             showError('מספר הבית אינו תקין. יש להזין מספר חיובי שלם.');
             return;
         }
-
+//בדיקת ולידציות מיובאות מהקובץ של הפונקצית
         if (password !== confirmPassword) {
             showError('הסיסמאות שנקלטו אינן תואמות. אנא ודא ששתי הסיסמאות זהות.');
             return;
@@ -145,7 +145,7 @@ if (registrationForm) {
         }
 
         const users = getAllUsers();
-        const emailExists = users.some((user) => user && user.email && user.email.toLowerCase() === email.toLowerCase()); 
+        const emailExists = users.some((user) => user && user.email && user.email.toLowerCase() === email.toLowerCase());
         if (emailExists) {
             showError('כתובת האימייל שהזנת כבר קיימת במערכת בשימוש של משתמש אחר.');
             return;
@@ -155,7 +155,7 @@ if (registrationForm) {
             showError('אנא העלה תמונת פרופיל בפורמט JPG או JPEG כדי להשלים את ההרשמה.');
             return;
         }
-
+        // יצירת אובייקט משתמש חדש ושמירתו במשתנה users, ולאחר מכן שמירת הרשימה המעודכנת ב-localStorage
         const newUser = new User({
             username,
             password,
@@ -171,7 +171,7 @@ if (registrationForm) {
 
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
-
+// הצגת הודעת הצלחה למשתמש עם אפשרות לאישור והעברה לדף ההתחברות
         Swal.fire({
             title: 'ההרשמה בוצעה בהצלחה!',
             text: 'ברוך הבא! מועבר לדף ההתחברות...',
@@ -186,10 +186,10 @@ if (registrationForm) {
         });
     });
 }
-
+//פונקציה א-סינכרונית שרצה אוטמטית ברגע שהעמוד נטען ושולפת את קובץ רשימת הערים בכדי לשמור אותה במשתנה citiesDatabase
 async function initRegistration() {
     try {
-        const response = await fetch('./cities.json'); 
+        const response = await fetch('./cities.json');
         citiesDatabase = await response.json();
     } catch (error) {
         console.error("שגיאה בטעינת רשימת הערים:", error);
