@@ -8,7 +8,7 @@ function main() {
     startButton.addEventListener('click', function () {
         let sizeSelector = document.querySelector('#grid-size');
         let selectedSize = Number(sizeSelector.value);
-
+// הכנסת כמות הספינות בכל גודל שהמשתמש הכניס 
         let count2 = Number(document.querySelector('#ship-size-2').value);
         let count3 = Number(document.querySelector('#ship-size-3').value);
         let count4 = Number(document.querySelector('#ship-size-4').value);
@@ -25,9 +25,9 @@ function main() {
             });
             return;
         }
-
+        // עדכון גודל הלוח לפי מה שהמשתמש בחר 
         setCurrentBoardSize(selectedSize);
-
+// איגוד של כל הספינות שהמשתמש הכניס למשתנה אחד כדי להעביר לפונקציה שמייצרת את הספינות
         let shipsConfiguration = {
             2: count2,
             3: count3,
@@ -37,7 +37,7 @@ function main() {
 
         initBoardMatrix(selectedSize);
         generateRandomShips(shipsConfiguration);
-
+//מעבר מהגדרות המשחק למשחק עצמו 
         document.querySelector('#setup-container').classList.add('hidden');
         document.querySelector('#game-container').classList.remove('hidden');
 

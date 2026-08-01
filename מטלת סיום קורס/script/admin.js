@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const tableBody = adminTable.querySelector('tbody');
     const usersCountEl = document.getElementById('usersCount');
-
+//בדיקה אם המשתמש הוא מנהל, אם לא, מציג הודעת אזהרה ומפנה לעמוד הבית
    if (!checkAdminPermission()) {
         Swal.fire({
             title: 'עמוד למנהלים בלבד',
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         return;
     }
+    // פונקציה שמציגה את רשימת המשתמשים בטבלת המנהלים
     function renderAdminTable() {
         const regularUsers = getRegularUsers();
 
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 32px; color: #718096;">אין משתמשים רשומים במערכת.</td></tr>`;
             return;
         }
-
+// יצירת שורות עבור כל משתמש והוספתן לטבלה
         regularUsers.forEach(function(user) {
             const tr = document.createElement('tr');
             const formatted = formatUserData(user);
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </td>
             `;
-
+// לחיצה על כפתור המחיקה מציגה הודעת אזהרה ומאפשרת למנהל לאשר את המחיקה
             tr.querySelector('.btn-delete').addEventListener('click', function() {
                 Swal.fire({
                     title: 'האם אתם בטוחים?',
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
 
-          
+          //לחיצה על כפתור העריכה מפנה את המנהל לעמוד עריכת המשתמש עם שם המשתמש כפרמטר
             tr.querySelector('.btn-edit').addEventListener('click', function() {
                 navigateToEditProfile(user.username);
             });
@@ -89,6 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tableBody.appendChild(tr);
         });
     }
-
+// קריאה ראשונית להצגת הטבלה עם טעינת העמוד 
     renderAdminTable();
 });
